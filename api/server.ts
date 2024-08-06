@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 import connectMongoDB from "./db/connectMongoDB";
 import authRoutes from "./routes/auth.route";
 
@@ -10,6 +11,7 @@ dotenv.config();
 const app = express();
 
 app.use(express.json({ limit: "5mb" }));
+app.use(cookieParser());
 
 app.use("/api/auth", authRoutes);
 

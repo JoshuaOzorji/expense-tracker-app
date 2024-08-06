@@ -81,24 +81,32 @@ export const signup = async (req: Request, res: Response) => {
 };
 
 export const login = async (req: Request, res: Response) => {
+	const { identifier, password } = req.body;
+
+	// Validate that either email or username and password are provided
+	if (!identifier) {
+		return res.status(400).json({ message: "Please enter username/email" });
+	}
+
+	if (!password) {
+		return res.status(400).json({ message: "Please enter password" });
+	}
+
 	try {
-		const { identifier, password } = req.body;
-
-		// Simple regex to check if the identifier is an email
-		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-		const isEmail = emailRegex.test(identifier);
-
-		// Query the database using the appropriate field
-		const user = await User.findOne({
-			[isEmail ? "email" : "username"]: identifier,
-		});
+		// Find the user by email or username
+		const isEmail = identifier.includes("@");
+		const user = await User.findOne(
+			isEmail ? { email: identifier } : { username: identifier },
+		);
 
 		if (!user) {
-			return res.status(404).json({ message: "User not found" });
+			return res
+				.status(400)
+				.json({ message: "Invalid username/email or password" });
 		}
 
 		//check if the password matches
-		const isPasswordValid = await bcrypt.compare(password, user?.password);
+		const isPasswordValid = await bcrypt.compare(password, user.password);
 
 		if (!user || !isPasswordValid) {
 			return res.status(400).json({ message: "Invalid username or password" });
@@ -106,17 +114,29 @@ export const login = async (req: Request, res: Response) => {
 
 		generateTokenAndSetCookie(user._id.toString(), res);
 
-		const userResponse = {
-			_id: user._id,
-			username: user.username,
-			firstName: user.firstName,
-			lastName: user.lastName,
-			email: user.email,
-			profileImg: user.profileImg,
-			gender: user.gender,
-		};
-		res.status(201).json({ message: "Login successful", user: userResponse });
+		res.status(201).json({ message: "Login successful" });
 	} catch (error: any) {
 		handleServerError(res, error, "login");
 	}
+};
+
+export const logout = async (req: Request, res: Response) => {
+	try {
+		res.clearCookie("jwt", {
+			sameSite: "none",
+			secure: true,
+			httpOnly: true,
+		});
+
+		res.status(200).json({ message: "Logged out successfully" });
+	} catch (error: any) {
+		handleServerError(res, error, "logout");
+	}
+};
+
+export const getMe = async (req: Request, res: Response) => {
+	const user = await User.findById(req.user._id).select("-password");
+	res.status(200).json(user);
+	try {
+	} catch (error) {}
 };
