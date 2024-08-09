@@ -102,7 +102,7 @@ export const login = async (req: Request, res: Response) => {
 		if (!user) {
 			return res
 				.status(400)
-				.json({ message: "Invalid username/email or password" });
+				.json({ message: "Wrong username/email or password" });
 		}
 
 		//check if the password matches
@@ -138,5 +138,7 @@ export const getMe = async (req: Request, res: Response) => {
 	const user = await User.findById(req.user._id).select("-password");
 	res.status(200).json(user);
 	try {
-	} catch (error) {}
+	} catch (error: any) {
+		handleServerError(res, error, "getMe");
+	}
 };
