@@ -5,6 +5,8 @@ import cookieParser from "cookie-parser";
 import connectMongoDB from "./db/connectMongoDB";
 import authRoutes from "./routes/auth.route";
 import userRoutes from "./routes/user.route";
+import transactionRoutes from "./routes/transaction.route";
+
 import { v2 as cloudinary } from "cloudinary";
 
 dotenv.config();
@@ -22,6 +24,7 @@ cloudinary.config({
 
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
+app.use("/api/transaction", transactionRoutes);
 
 // Test route
 // app.get("/", (req: Request, res: Response) => {
