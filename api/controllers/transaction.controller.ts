@@ -52,6 +52,16 @@ export const deleteTransaction = async (req: Request, res: Response) => {
 
 export const getTransaction = async (req: Request, res: Response) => {
 	try {
+		// const { id } = req.params;
+		const transactionId = req.params.id;
+
+		const transaction = await Transaction.findById(transactionId);
+
+		if (!transaction) {
+			return res.status(404).json({ message: "Transaction not found" });
+		}
+
+		res.status(200).json(transaction);
 	} catch (error: any) {
 		handleServerError(res, error, "getTransaction");
 	}
@@ -61,10 +71,12 @@ export const getTransactions = async (req: Request, res: Response) => {
 	try {
 		const userId = req.user._id;
 
-		const transactions = await Transaction.find(userId);
+		const transactions = await Transaction.find({ userId }).sort({
+			createdAt: -1,
+		});
 
 		res.status(200).json(transactions);
 	} catch (error: any) {
-		handleServerError(res, error, "getTransaction");
+		handleServerError(res, error, "getTransactions");
 	}
 };

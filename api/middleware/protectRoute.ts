@@ -31,7 +31,7 @@ export const protectRoute = async (
 		const decoded = jwt.verify(token, jwtSecret) as JwtPayload;
 
 		if (!decoded) {
-			return res.status(401).json({ error: "Unauthorized invalid token" });
+			return res.status(401).json({ error: "Unauthorized - invalid token" });
 		}
 
 		const user = await User.findById(decoded.userId).select("-password");

@@ -4,6 +4,7 @@ import bcrypt from "bcryptjs";
 import { generateTokenAndSetCookie } from "../utils/generateToken";
 
 import handleServerError from "../utils/errorHandler";
+import { sendVerificationEmail } from "../mailtrap/emails";
 
 export const signup = async (req: Request, res: Response) => {
 	try {
@@ -142,3 +143,33 @@ export const getMe = async (req: Request, res: Response) => {
 		handleServerError(res, error, "getMe");
 	}
 };
+
+export const verifyEmail = async (req: Request, res: Response) => {
+	const { code } = req.body;
+
+	try {
+		const user = await User.findOne({
+			verificationToken: code,
+			verificationTokenExpiresAt: { $gt: Date.now() },
+		});
+
+		if (!user) {
+			return res.status(400).json({
+				success: false,
+				message: "Invalid or expired verification code",
+			});
+		}
+
+		user.isVerified = true;
+		user.verificationToken = undefined;
+		user.verificationTokenExpiresAt = undefined;
+
+		await user.save();
+	} catch (error: any) {
+		handleServerError(res, error, "verifyEmail");
+	}
+};
+
+export const resetPassword = async (req: Request, res: Response) => {};
+
+export const forgotPassword = async (req: Request, res: Response) => {};
