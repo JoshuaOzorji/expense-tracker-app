@@ -15,6 +15,12 @@ export default {
 				lg: "1024px",
 				xl: "1280px",
 			},
+
+			colors: {
+				pry: "#EC535B",
+				accent: "#f5f3f4",
+				sec: "#adb5bd",
+			},
 		},
 	},
 	plugins: [daisyui],
