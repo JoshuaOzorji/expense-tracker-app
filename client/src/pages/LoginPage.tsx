@@ -42,7 +42,7 @@ const LoginPage = () => {
 						<label htmlFor='password' className='label'>
 							<CiLock className='icon text-pry' />
 							<input
-								type='text'
+								type='password'
 								placeholder='password'
 								name='password'
 								className='flex-grow outline-none bg-accent font-extralight'
@@ -60,7 +60,7 @@ const LoginPage = () => {
 
 					<div className='flex justify-center gap-2 pt-6 text-h4'>
 						<p className='text-sec'>Don't have an account?</p>{" "}
-						<Link className='text-pry' to={"/signup"}>
+						<Link className='text-pry hover:underline' to={"/signup"}>
 							Sign Up
 						</Link>
 					</div>
