@@ -80,25 +80,3 @@ export const getTransactions = async (req: Request, res: Response) => {
 		handleServerError(res, error, "getTransactions");
 	}
 };
-
-export const calculateBalance = async (userId: string) => {
-	try {
-		const incomeSum = await Transaction.aggregate([
-			{ $match: { userId, income: { $gt: 0 } } },
-			{ $group: { _id: null, totalIncome: { $sum: "$income" } } },
-		]);
-
-		const expenseSum = await Transaction.aggregate([
-			{ $match: { userId, amount: { $gt: 0 } } },
-			{ $group: { _id: null, totalExpense: { $sum: "$amount" } } },
-		]);
-
-		const totalIncome = incomeSum[0]?.totalIncome || 0;
-		const totalExpense = expenseSum[0]?.totalExpense || 0;
-
-		const availableBalance = totalIncome - totalExpense;
-		return availableBalance;
-	} catch (error: any) {
-		throw new Error("Error calculating balance");
-	}
-};

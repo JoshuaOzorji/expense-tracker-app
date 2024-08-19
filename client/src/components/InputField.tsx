@@ -48,7 +48,7 @@ export const GenderField = ({ label, name }: GenderFieldProps) => {
 						type='radio'
 						name={name}
 						value='male'
-						className='mr-2'
+						className='mr-2 radio radio-error'
 						required
 					/>
 					Male
@@ -58,7 +58,7 @@ export const GenderField = ({ label, name }: GenderFieldProps) => {
 						type='radio'
 						name={name}
 						value='female'
-						className='mr-2'
+						className='mr-2 radio radio-error'
 						required
 					/>
 					Female
