@@ -1,10 +1,10 @@
-import { Button } from "@/components/ui/button";
+import Dashboard from "@/components/Dashboard";
 
 const HomePage = () => {
 	return (
-		<div>
-			<Button>Click me</Button>
-		</div>
+		<main className='bucket'>
+			<Dashboard />
+		</main>
 	);
 };
 

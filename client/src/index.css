@@ -1,4 +1,43 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-  
+
+.animate {
+	@apply transition-all delay-100;
+}
+
+.label {
+	@apply flex items-center gap-2 p-2 md:p-3 rounded-lg bg-accent;
+}
+
+.input {
+	@apply outline-none bg-accent font-extralight;
+}
+
+.button {
+	@apply px-3 py-1.5 md:px-4 md:py-2 rounded-lg text-accent bg-pry hover:bg-accent hover:text-pry border animate;
+}
+
+.form-focus {
+	@apply focus:outline-none focus:border-pry;
+}
+
+.icon {
+	@apply w-5 h-5;
+}
+
+.text-h2 {
+	@apply text-xl md:text-2xl;
+}
+
+.text-h4 {
+	@apply text-xs md:text-sm;
+}
+
+.bucket {
+	@apply w-[90%] p-1 md:p-2 mx-auto transition-all delay-100;
+}
+
+.animate {
+	@apply transition-all duration-300;
+}
