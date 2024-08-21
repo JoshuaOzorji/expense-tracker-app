@@ -18,7 +18,7 @@ const transactionSchema = new mongoose.Schema(
 
 		category: {
 			type: String,
-			enum: ["savings", "expense", "investment"],
+			enum: ["investments", "savings", "essentials", "discretionary"],
 			required: true,
 		},
 
