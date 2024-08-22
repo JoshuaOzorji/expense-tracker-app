@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 const Footer = () => {
 	return (
 		<main className='bg-black/5 py-1.5'>
-			<section className='bucket flex justify-between items-center'>
+			<section className='flex items-center justify-between bucket'>
 				<Link to='/'>
 					<span className='text-neutral-600 hover:text-pry  text-[0.8rem] md:text-sm font-bold animate'>
 						Expense Tracker

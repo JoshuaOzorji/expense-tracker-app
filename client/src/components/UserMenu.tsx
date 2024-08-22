@@ -17,21 +17,21 @@ const UserMenu = () => {
 					<img
 						src={userImg}
 						alt=''
-						className='rounded-full object-cover outline-none hover:outline-none h-8 w-8'
+						className='object-cover w-8 h-8 rounded-full outline-none hover:outline-none'
 					/>
 				</DropdownMenuTrigger>
 				<DropdownMenuContent className='mr-3 md:mr-4'>
 					<DropdownMenuLabel>Hi, [FirstName]</DropdownMenuLabel>
 					<DropdownMenuSeparator />
 					<DropdownMenuItem>
-						<button className='hover:bg-accent p-1 rounded-md'>
+						<button className='p-1 rounded-md hover:bg-accent'>
 							Update Profile
 						</button>
 					</DropdownMenuItem>
 					<DropdownMenuItem>
 						<Button
 							size='sm'
-							className='w-full bg-pry hover:bg-sec hover:text-pry rounded-none'>
+							className='w-full rounded-none bg-pry hover:bg-sec hover:text-pry'>
 							Logout
 						</Button>
 					</DropdownMenuItem>

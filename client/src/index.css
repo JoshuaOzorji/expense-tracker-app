@@ -15,7 +15,11 @@
 }
 
 .button {
-	@apply px-3 py-1.5 md:px-4 md:py-2 rounded-lg text-accent bg-pry hover:bg-accent hover:text-pry border animate;
+	@apply px-3 py-1.5 md:px-4 md:py-2 rounded-md text-accent bg-pry hover:bg-accent hover:text-pry border animate;
+}
+
+.buttonSm {
+	@apply px-2 py-1 md:px-3 rounded-md text-accent bg-pry hover:bg-accent hover:text-pry border animate;
 }
 
 .form-focus {
