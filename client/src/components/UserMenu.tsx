@@ -13,11 +13,11 @@ const UserMenu = () => {
 	return (
 		<div>
 			<DropdownMenu>
-				<DropdownMenuTrigger>
+				<DropdownMenuTrigger className='outline-none'>
 					<img
 						src={userImg}
 						alt=''
-						className='object-cover w-8 h-8 rounded-full outline-none hover:outline-none'
+						className='object-cover w-8 h-8 rounded-full'
 					/>
 				</DropdownMenuTrigger>
 				<DropdownMenuContent className='mr-3 md:mr-4'>
