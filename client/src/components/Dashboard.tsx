@@ -1,5 +1,6 @@
 import { Chart as ChartJS, ArcElement, Tooltip } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
+import AddTransaction from "./AddTransaction";
 
 const chartData = {
 	labels: ["Investments", "Savings", "Essentials", "Discretionary"],
@@ -31,7 +32,7 @@ const Dashboard = () => {
 		<main className='p-2 border rounded-md shadow-md '>
 			<div className='flex items-center justify-between'>
 				<p className='p-2'>Good morning, [FIRST_NAME]</p>
-				<button className='buttonSm'>Add +</button>
+				<AddTransaction />
 			</div>
 
 			<div className='flex flex-col items-center max-h-screen gap-3 md:flex-row shadow-accent'>
@@ -46,9 +47,9 @@ const Dashboard = () => {
 					<div className='flex justify-between items-center space-x-8 border border-[#03071e] rounded-md text-[#03071e] py-1 px-2'>
 						<span className='flex flex-col'>
 							<h2 className='text-2xl font-bold'>Investments</h2>
-							<p className='font-extralight text-[10px]'>
-								Money put towards future growth or income, such as stocks,
-								retirement funds, real estate, and business ventures.
+							<p className='font-extralight text-[12px]'>
+								e.g stocks, retirement funds, real estate, and business
+								ventures.
 							</p>
 						</span>
 						<span className='text-4xl font-bold'>$34</span>
@@ -57,9 +58,8 @@ const Dashboard = () => {
 					<div className='flex justify-between items-center space-x-8 border border-[#fcb9b2] rounded-md text-[#fcb9b2] py-1 px-2'>
 						<span className='flex flex-col'>
 							<h2 className='text-2xl font-bold'>Discretionary</h2>
-							<p className='font-extralight text-[10px]'>
-								Non-essential spending, such as recreation, entertainment,
-								hobbies, vacations, and gifts.
+							<p className='font-extralight text-[12px]'>
+								e.g. recreation, entertainment, hobbies, vacations, and gifts.
 							</p>
 						</span>
 						<span className='text-4xl font-bold'>$73</span>
@@ -68,9 +68,9 @@ const Dashboard = () => {
 					<div className='flex justify-between items-center space-x-8 border border-[#b23a48] rounded-md text-[#b23a48] py-1 px-2'>
 						<span className='flex flex-col'>
 							<h2 className='text-2xl font-bold'>Essentials</h2>
-							<p className='font-extralight text-[10px]'>
-								Necessary living expenses like housing, groceries, utilities,
-								transportation, insurance, and debt repayment.
+							<p className='font-extralight text-[12px]'>
+								e.g housing, groceries, utilities, transportation, insurance,
+								and debt repayment.
 							</p>
 						</span>
 						<span className='text-4xl font-bold'>$32</span>
@@ -79,9 +79,8 @@ const Dashboard = () => {
 					<div className='flex justify-between items-center space-x-8 border border-[#6a040f] rounded-md text-[#6a040f] py-1 px-2'>
 						<span className='flex flex-col'>
 							<h2 className='text-2xl font-bold'>Savings</h2>
-							<p className='font-extralight text-[10px]'>
-								Funds set aside for future use, including emergency funds,
-								savings accounts, and long-term goals.
+							<p className='font-extralight text-[12px]'>
+								e.g emergency funds, savings accounts, and long-term goals.
 							</p>
 						</span>
 						<span className='text-4xl font-bold'>$180</span>

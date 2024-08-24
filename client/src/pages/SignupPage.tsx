@@ -1,7 +1,7 @@
 import { CiLock, CiUser } from "react-icons/ci";
 import { Link } from "react-router-dom";
 import signupImage from "/expense.png";
-import { GenderField, InputField } from "../components/InputField";
+import { GenderField, InputField } from "../components/InputFields";
 import { CiMail } from "react-icons/ci";
 
 import { PiUserPlusLight } from "react-icons/pi";
@@ -18,8 +18,9 @@ const SignupPage = () => {
 						</p>
 					</div>
 
-					<form className='space-y-4 flex flex-col'>
+					<form className='flex flex-col space-y-4'>
 						<InputField
+							id='firstName'
 							label='First Name'
 							type='text'
 							name='firstName'
@@ -28,6 +29,7 @@ const SignupPage = () => {
 						/>
 
 						<InputField
+							id='lastName'
 							label='Last Name'
 							type='text'
 							name='lastName'
@@ -38,6 +40,7 @@ const SignupPage = () => {
 						<GenderField label='Gender' name='gender' />
 
 						<InputField
+							id='username'
 							label='Username'
 							type='text'
 							name='username'
@@ -46,6 +49,7 @@ const SignupPage = () => {
 						/>
 
 						<InputField
+							id='email'
 							label='Email'
 							type='email'
 							name='email'
@@ -54,6 +58,7 @@ const SignupPage = () => {
 						/>
 
 						<InputField
+							id='password'
 							label='Password'
 							type='password'
 							name='password'
@@ -62,6 +67,7 @@ const SignupPage = () => {
 						/>
 
 						<InputField
+							id='confirmPassword'
 							label='Confirm Password'
 							type='password'
 							name='confirmPassword'

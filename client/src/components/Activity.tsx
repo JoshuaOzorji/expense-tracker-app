@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import FilterMenu from "./FilterMenu";
+import AddTransaction from "./AddTransaction";
 
 const Activity = () => {
 	return (
@@ -8,7 +9,7 @@ const Activity = () => {
 				<p>Recent Activities</p>
 
 				<div className='flex gap-3'>
-					<button className='buttonSm whitespace-nowrap'>Add +</button>
+					<AddTransaction />
 					<FilterMenu />
 				</div>
 			</header>

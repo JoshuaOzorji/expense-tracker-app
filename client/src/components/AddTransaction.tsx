@@ -2,14 +2,12 @@ import { Button } from "@/components/ui/button";
 import {
 	Dialog,
 	DialogContent,
-	DialogDescription,
 	DialogFooter,
 	DialogHeader,
 	DialogTitle,
 	DialogTrigger,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { DateInputField, InputField, SelectField } from "./InputFields";
 
 const AddTransaction = () => {
 	return (
@@ -19,37 +17,72 @@ const AddTransaction = () => {
 					Add +
 				</Button>
 			</DialogTrigger>
-			<DialogContent className='sm:max-w-[425px]'>
+			<DialogContent className=''>
 				<DialogHeader>
-					<DialogTitle>Edit profile</DialogTitle>
-					<DialogDescription>
-						Make changes to your profile here. Click save when you're done.
-					</DialogDescription>
+					<DialogTitle>Add transaction</DialogTitle>
 				</DialogHeader>
-				<div className='grid gap-4 py-4'>
-					<div className='grid items-center grid-cols-4 gap-4'>
-						<Label htmlFor='name' className='text-right'>
-							Name
-						</Label>
-						<Input
-							id='name'
-							defaultValue='Pedro Duarte'
-							className='col-span-3'
-						/>
+				<div className='grid gap-2 py-4'>
+					<div className='flex items-center justify-between gap-2'>
+						<span className='w-full'>
+							<SelectField
+								label='Payment Type'
+								id='paymentType'
+								name='paymentType'
+								options={["cash", "card", "transfer"]}
+							/>
+						</span>
+
+						<span className='w-full'>
+							<SelectField
+								label='Category'
+								id='category'
+								name='category'
+								options={[
+									"investments",
+									"savings",
+									"essentials",
+									"discretionary",
+								]}
+							/>
+						</span>
 					</div>
-					<div className='grid items-center grid-cols-4 gap-4'>
-						<Label htmlFor='username' className='text-right'>
-							Username
-						</Label>
-						<Input
-							id='username'
-							defaultValue='@peduarte'
-							className='col-span-3'
-						/>
+
+					<div className='flex justify-between gap-2'>
+						<span className='w-full'>
+							<InputField
+								label='Amount'
+								id='amount'
+								type='number'
+								name='amount'
+								placeholder='Amount'
+							/>
+						</span>
+
+						<span className='w-full'>
+							<InputField
+								label='Location'
+								id='location'
+								type='text'
+								name='location'
+								placeholder='location'
+							/>
+						</span>
 					</div>
+
+					<DateInputField label='Date' id='date' name='date' />
+
+					<InputField
+						id='description'
+						label='Description'
+						type='text'
+						name='description'
+						placeholder='description'
+					/>
 				</div>
 				<DialogFooter>
-					<Button type='submit'>Save changes</Button>
+					<button type='submit' className='buttonSm'>
+						Add Transaction
+					</button>
 				</DialogFooter>
 			</DialogContent>
 		</Dialog>
