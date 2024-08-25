@@ -67,12 +67,43 @@ export const getTransaction = async (req: Request, res: Response) => {
 	}
 };
 
+// export const getTransactions = async (req: Request, res: Response) => {
+// 	try {
+// 		const userId = req.user._id;
+
+// 		const transactions = await Transaction.find({ userId }).sort({
+// 			createdAt: -1,
+// 		});
+
+// 		res.status(200).json(transactions);
+// 	} catch (error: any) {
+// 		handleServerError(res, error, "getTransactions");
+// 	}
+// };
+
 export const getTransactions = async (req: Request, res: Response) => {
 	try {
 		const userId = req.user._id;
 
+		// Extract sorting parameters from the query and cast sortField to string
+		const sortField = (req.query.sortField as string) || "createdAt"; // Default sorting by createdAt
+		const sortOrder = req.query.sortOrder === "asc" ? 1 : -1; // Default to descending order
+
+		// Ensure the sortField is one of the allowed fields
+		const allowedSortFields = [
+			"category",
+			"amount",
+			"date",
+			"paymentType",
+			"createdAt",
+		];
+		if (!allowedSortFields.includes(sortField)) {
+			return res.status(400).json({ error: "Invalid sort field" });
+		}
+
+		// Fetch and sort transactions
 		const transactions = await Transaction.find({ userId }).sort({
-			createdAt: -1,
+			[sortField]: sortOrder, // Correct computed property name
 		});
 
 		res.status(200).json(transactions);
