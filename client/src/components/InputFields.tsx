@@ -6,6 +6,8 @@ interface InputFieldProps {
 	type: string;
 	name: string;
 	placeholder: string;
+	onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+	value: string;
 	Icon?: IconType;
 }
 
@@ -15,6 +17,8 @@ export const InputField = ({
 	type,
 	name,
 	placeholder,
+	onChange,
+	value,
 	Icon,
 }: InputFieldProps) => {
 	return (
@@ -30,6 +34,8 @@ export const InputField = ({
 					placeholder={placeholder}
 					name={name}
 					className='flex-grow outline-none bg-accent font-extralight'
+					onChange={onChange}
+					value={value}
 				/>
 			</div>
 		</label>

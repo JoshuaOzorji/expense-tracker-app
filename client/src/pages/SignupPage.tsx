@@ -5,8 +5,30 @@ import { GenderField, InputField } from "../components/InputFields";
 import { CiMail } from "react-icons/ci";
 
 import { PiUserPlusLight } from "react-icons/pi";
+import { useSignUp } from "@/hooks/AuthApi";
+import { ChangeEvent, FormEvent, useState } from "react";
 
 const SignupPage = () => {
+	const { signUp, isError, isPending, error } = useSignUp();
+
+	const [formData, setFormData] = useState({
+		username: "",
+		firstName: "",
+		lastName: "",
+		password: "",
+		email: "",
+		gender: "",
+	});
+
+	const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+		const { name, value } = e.target;
+		setFormData({ ...formData, [name]: value });
+	};
+
+	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+	};
+
 	return (
 		<main className='flex flex-col min-h-screen md:flex-row md:relative'>
 			<section className='md:w-[60%] flex flex-col justify-center min-h-screen '>
@@ -18,7 +40,7 @@ const SignupPage = () => {
 						</p>
 					</div>
 
-					<form className='flex flex-col space-y-4'>
+					<form className='flex flex-col space-y-4' onSubmit={handleSubmit}>
 						<InputField
 							id='firstName'
 							label='First Name'
@@ -26,6 +48,8 @@ const SignupPage = () => {
 							name='firstName'
 							placeholder='first name'
 							Icon={CiUser}
+							onChange={handleInputChange}
+							value={formData.firstName}
 						/>
 
 						<InputField
@@ -35,6 +59,8 @@ const SignupPage = () => {
 							name='lastName'
 							placeholder='last name'
 							Icon={CiUser}
+							onChange={handleInputChange}
+							value={formData.lastName}
 						/>
 
 						<GenderField label='Gender' name='gender' />
@@ -46,6 +72,8 @@ const SignupPage = () => {
 							name='username'
 							placeholder='username'
 							Icon={PiUserPlusLight}
+							onChange={handleInputChange}
+							value={formData.username}
 						/>
 
 						<InputField
@@ -55,6 +83,8 @@ const SignupPage = () => {
 							name='email'
 							placeholder='email'
 							Icon={CiMail}
+							onChange={handleInputChange}
+							value={formData.email}
 						/>
 
 						<InputField
@@ -64,6 +94,8 @@ const SignupPage = () => {
 							name='password'
 							placeholder='password'
 							Icon={CiLock}
+							onChange={handleInputChange}
+							value={formData.password}
 						/>
 
 						<InputField
@@ -73,6 +105,8 @@ const SignupPage = () => {
 							name='confirmPassword'
 							placeholder='confirm password'
 							Icon={CiLock}
+							onChange={handleInputChange}
+							value={formData.username}
 						/>
 
 						<button className='button'>

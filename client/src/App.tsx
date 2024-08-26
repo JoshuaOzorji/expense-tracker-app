@@ -5,15 +5,21 @@ import SignupPage from "./pages/SignupPage";
 import Layout from "./layouts/Layout";
 import HomePage from "./pages/HomePage";
 import { Toaster } from "react-hot-toast";
+import { useQuery } from "@tanstack/react-query";
 
 const App = () => {
+	const { data: authUser } = useQuery({ queryKey: ["authUser"] });
+
 	return (
 		<main>
 			<Routes>
 				<Route element={<Layout2 />}>
 					<Route path='/login' element={<LoginPage />} />
 
-					<Route path='/signup' element={<SignupPage />} />
+					<Route
+						path='/signup'
+						element={!authUser ? <SignupPage /> : <Navigate to='/' />}
+					/>
 				</Route>
 
 				<Route element={<Layout />}>

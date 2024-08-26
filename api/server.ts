@@ -12,6 +12,13 @@ import { v2 as cloudinary } from "cloudinary";
 dotenv.config();
 const app = express();
 
+app.use(
+	cors({
+		origin: process.env.FRONTEND_URL || "",
+		credentials: true,
+	}),
+);
+
 app.use(express.json({ limit: "5mb" }));
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
