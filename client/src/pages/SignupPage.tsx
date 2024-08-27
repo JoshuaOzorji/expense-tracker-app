@@ -1,7 +1,6 @@
 import { CiLock, CiUser } from "react-icons/ci";
 import { Link } from "react-router-dom";
 import signupImage from "/expense.png";
-import { GenderField, InputField } from "../components/InputFields";
 import { CiMail } from "react-icons/ci";
 
 import { PiUserPlusLight } from "react-icons/pi";
@@ -16,6 +15,7 @@ const SignupPage = () => {
 		firstName: "",
 		lastName: "",
 		password: "",
+		confirmPassword: "",
 		email: "",
 		gender: "",
 	});
@@ -27,11 +27,12 @@ const SignupPage = () => {
 
 	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
+		signUp(formData);
 	};
 
 	return (
 		<main className='flex flex-col min-h-screen md:flex-row md:relative'>
-			<section className='md:w-[60%] flex flex-col justify-center min-h-screen '>
+			<section className='md:w-[60%] flex flex-col justify-center min-h-screen'>
 				<div className='block w-[80%] md:w-[50%] mx-auto space-y-4 my-8'>
 					<div>
 						<h2 className='font-bold text-h2 font-bitter'>Sign Up</h2>
@@ -40,78 +41,146 @@ const SignupPage = () => {
 						</p>
 					</div>
 
-					<form className='flex flex-col space-y-4' onSubmit={handleSubmit}>
-						<InputField
-							id='firstName'
-							label='First Name'
-							type='text'
-							name='firstName'
-							placeholder='first name'
-							Icon={CiUser}
-							onChange={handleInputChange}
-							value={formData.firstName}
-						/>
+					<form
+						className='flex flex-col gap-3'
+						onSubmit={handleSubmit}
+						autoComplete='off'>
+						{/* FIRST NAME */}
+						<div>
+							<label htmlFor='firstName'>First name</label>
+							<div className='label'>
+								<CiUser className='icon text-pry' />
+								<input
+									type='text'
+									name='firstName'
+									placeholder='first name'
+									className='custom-input'
+									onChange={handleInputChange}
+									value={formData.firstName}
+								/>
+							</div>
+						</div>
 
-						<InputField
-							id='lastName'
-							label='Last Name'
-							type='text'
-							name='lastName'
-							placeholder='last name'
-							Icon={CiUser}
-							onChange={handleInputChange}
-							value={formData.lastName}
-						/>
+						{/* LAST NAME */}
+						<div>
+							<label htmlFor='Last Name'>Last Name</label>
+							<div className='label'>
+								<CiUser className='icon text-pry' />
+								<input
+									type='text'
+									name='lastName'
+									placeholder='last name'
+									className='custom-input'
+									onChange={handleInputChange}
+									value={formData.lastName}
+								/>
+							</div>
+						</div>
 
-						<GenderField label='Gender' name='gender' />
+						{/* USERNAME */}
+						<div>
+							<label htmlFor='username'>Username</label>
+							<div className='label'>
+								<PiUserPlusLight className='icon text-pry' />
+								<input
+									type='text'
+									name='username'
+									placeholder='username'
+									className='custom-input'
+									onChange={handleInputChange}
+									value={formData.username}
+								/>
+							</div>
+						</div>
 
-						<InputField
-							id='username'
-							label='Username'
-							type='text'
-							name='username'
-							placeholder='username'
-							Icon={PiUserPlusLight}
-							onChange={handleInputChange}
-							value={formData.username}
-						/>
+						{/* GENDER */}
+						<div>
+							<label>Gender</label>
+							<div className='flex space-x-4'>
+								<label className='flex items-center'>
+									<input
+										type='radio'
+										name='gender'
+										value='male'
+										onChange={handleInputChange}
+										checked={formData.gender === "male"}
+										required
+										className='mr-2 radio radio-error'
+									/>
+									Male
+								</label>
+								<label className='flex items-center'>
+									<input
+										type='radio'
+										name='gender'
+										value='female'
+										onChange={handleInputChange}
+										checked={formData.gender === "female"}
+										required
+										className='mr-2 radio radio-error'
+									/>
+									Female
+								</label>
+							</div>
+						</div>
 
-						<InputField
-							id='email'
-							label='Email'
-							type='email'
-							name='email'
-							placeholder='email'
-							Icon={CiMail}
-							onChange={handleInputChange}
-							value={formData.email}
-						/>
+						{/* EMAIL */}
+						<div>
+							<label htmlFor='email'>Email</label>
+							<div className='label'>
+								<CiMail className='icon text-pry' />
+								<input
+									type='email'
+									name='email'
+									placeholder='email address'
+									className='custom-input'
+									onChange={handleInputChange}
+									value={formData.email}
+								/>
+							</div>
+						</div>
 
-						<InputField
-							id='password'
-							label='Password'
-							type='password'
-							name='password'
-							placeholder='password'
-							Icon={CiLock}
-							onChange={handleInputChange}
-							value={formData.password}
-						/>
+						{/* PASSWORD */}
+						<div>
+							<label htmlFor='password'>Password</label>
+							<div className='label'>
+								<CiLock className='icon text-pry' />
+								<input
+									type='password'
+									name='password'
+									placeholder='password'
+									className='custom-input'
+									onChange={handleInputChange}
+									value={formData.password}
+								/>
+							</div>
+						</div>
 
-						<InputField
-							id='confirmPassword'
-							label='Confirm Password'
-							type='password'
-							name='confirmPassword'
-							placeholder='confirm password'
-							Icon={CiLock}
-							onChange={handleInputChange}
-							value={formData.username}
-						/>
+						{/* CONFIRM PASSWORD */}
+						<div>
+							<label htmlFor='confirmPassword'>Confirm Password</label>
+							<div className='label'>
+								<CiLock className='icon text-pry' />
+								<input
+									type='password'
+									name='confirmPassword'
+									placeholder='confirm password'
+									className='custom-input'
+									onChange={handleInputChange}
+									value={formData.confirmPassword}
+								/>
+							</div>
+						</div>
 
+						{/* SUBMIT BUTTON */}
 						<button className='button'>
-							<p>Sign Up</p>
+							<p>{isPending ? "Loading..." : "Sign Up"}</p>
 						</button>
+						{isError && error && (
+							<p className='text-sm text-red-500 md:text-base'>
+								{error.message}
+							</p>
+						)}
 					</form>
 
 					<div className='flex justify-center gap-2 pt-6 text-h4'>

@@ -10,8 +10,8 @@
 	@apply flex items-center gap-2 p-2 md:p-3 rounded-lg bg-accent;
 }
 
-.input {
-	@apply outline-none bg-accent font-extralight;
+.custom-input {
+	@apply flex-grow outline-none bg-accent font-extralight;
 }
 
 .button {

@@ -14,49 +14,68 @@ import {
 
 export const signup = async (req: Request, res: Response) => {
 	try {
-		const { firstName, lastName, username, email, password, gender } = req.body;
+		const {
+			username,
+			firstName,
+			lastName,
+			email,
+			password,
+			confirmPassword,
+			gender,
+		} = req.body;
 
-		if (
-			!firstName ||
-			!lastName ||
-			!username ||
-			!email ||
-			!password ||
-			!gender
-		) {
-			return res.status(400).json({ error: "All fields are required" });
+		// if (
+		// 	!username ||
+		// 	!firstName ||
+		// 	!lastName ||
+		// 	!email ||
+		// 	!password ||
+		// 	!confirmPassword ||
+		// 	!gender
+		// ) {
+		// 	return res.status(400).json({ error: "All fields are required" });
+		// }
+
+		// Check if password and confirmPassword match
+		if (password !== confirmPassword) {
+			return res.status(400).json({ error: "Passwords do not match" });
 		}
 
+		// Validate email format
 		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
 		if (!emailRegex.test(email)) {
 			return res.status(400).json({ error: "Invalid email format" });
 		}
 
+		// Check if username is already taken
 		const existingUser = await User.findOne({ username });
-
 		if (existingUser) {
 			return res.status(400).json({ error: "Username is already taken" });
 		}
 
+		// Check if email is already taken
 		const existingEmail = await User.findOne({ email });
 		if (existingEmail) {
 			return res.status(400).json({ error: "Email is already taken" });
 		}
 
+		// Ensure password meets the length requirement
 		if (password.length < 6) {
 			return res
 				.status(400)
 				.json({ error: "Password must be at least 6 characters" });
 		}
 
+		// Hash the password
 		const salt = await bcrypt.genSalt(10);
 		const hashedPassword = await bcrypt.hash(password, salt);
 
+		// Generate a verification token
 		const verificationToken = Math.floor(
 			100000 + Math.random() * 900000,
 		).toString();
 
+		// Create new user
 		const newUser = new User({
 			firstName,
 			lastName,
@@ -68,6 +87,7 @@ export const signup = async (req: Request, res: Response) => {
 			verificationTokenExpiresAt: Date.now() + 24 * 60 * 60 * 1000, // 24 hours
 		});
 
+		// Save the user and send verification email
 		if (newUser) {
 			generateTokenAndSetCookie(newUser._id.toString(), res);
 
@@ -75,6 +95,7 @@ export const signup = async (req: Request, res: Response) => {
 
 			await sendVerificationEmail(newUser.email, verificationToken);
 
+			// Send response with user data (excluding password)
 			const userResponse = {
 				_id: newUser._id,
 				username: newUser.username,

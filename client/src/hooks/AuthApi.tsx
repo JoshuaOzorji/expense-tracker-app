@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
@@ -8,8 +8,9 @@ interface SignUpType {
 	firstName: string;
 	lastName: string;
 	password: string;
+	confirmPassword: string;
 	email: string;
-	gender: boolean;
+	gender: string;
 }
 
 export const useSignUp = () => {
@@ -21,6 +22,7 @@ export const useSignUp = () => {
 			firstName,
 			lastName,
 			password,
+			confirmPassword,
 			email,
 			gender,
 		}: SignUpType) => {
@@ -33,6 +35,7 @@ export const useSignUp = () => {
 						firstName,
 						lastName,
 						password,
+						confirmPassword,
 						email,
 						gender,
 					}),
@@ -53,4 +56,33 @@ export const useSignUp = () => {
 		},
 	});
 	return { signUp: mutate, isError, isPending, error };
+};
+
+export const useAuthUser = () => {
+	const { data: authUser, isLoading } = useQuery({
+		queryKey: ["authUser"],
+		queryFn: async () => {
+			try {
+				const response = await fetch(`${API_BASE_URL}/api/auth/me`, {
+					credentials: "include",
+				});
+				const data = await response.json();
+				if (data.error) return null;
+				if (!response.ok) {
+					throw new Error(data.error || "Something went wrong");
+				}
+				return data;
+			} catch (error) {
+				console.error(error);
+				throw error;
+			}
+		},
+		retry: false,
+	});
+
+	return { authUser, isLoading };
+};
+
+export const useLogout = () => {
+	const queryClient = useQueryClient();
 };

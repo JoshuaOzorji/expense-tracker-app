@@ -42,41 +42,6 @@ export const InputField = ({
 	);
 };
 
-interface GenderFieldProps {
-	label: string;
-	name: string;
-}
-
-export const GenderField = ({ label, name }: GenderFieldProps) => {
-	return (
-		<main>
-			<label>{label}</label>
-			<div className='flex space-x-4'>
-				<label className='flex items-center'>
-					<input
-						type='radio'
-						name={name}
-						value='male'
-						className='mr-2 radio radio-error'
-						required
-					/>
-					Male
-				</label>
-				<label className='flex items-center'>
-					<input
-						type='radio'
-						name={name}
-						value='female'
-						className='mr-2 radio radio-error'
-						required
-					/>
-					Female
-				</label>
-			</div>
-		</main>
-	);
-};
-
 interface SelectFieldProps {
 	id: string;
 	label: string;
