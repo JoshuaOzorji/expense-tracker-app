@@ -8,8 +8,11 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "./ui/button";
 import userImg from "/mrjosh.png";
+import { useLogout } from "@/hooks/AuthApi";
 
 const UserMenu = () => {
+	const { authUser: logout } = useLogout();
+
 	return (
 		<div>
 			<DropdownMenu>
@@ -31,7 +34,11 @@ const UserMenu = () => {
 					<DropdownMenuItem>
 						<Button
 							size='sm'
-							className='w-full rounded-none bg-pry hover:bg-sec hover:text-pry'>
+							className='w-full rounded-none bg-pry hover:bg-sec hover:text-pry'
+							onClick={(e) => {
+								e.preventDefault();
+								logout();
+							}}>
 							Logout
 						</Button>
 					</DropdownMenuItem>

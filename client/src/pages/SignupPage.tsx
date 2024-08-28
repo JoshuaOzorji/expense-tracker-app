@@ -1,11 +1,11 @@
 import { CiLock, CiUser } from "react-icons/ci";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import signupImage from "/expense.png";
 import { CiMail } from "react-icons/ci";
 
 import { PiUserPlusLight } from "react-icons/pi";
-import { useSignUp } from "@/hooks/AuthApi";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { useAuthUser, useSignUp } from "@/hooks/AuthApi";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 
 const SignupPage = () => {
 	const { signUp, isError, isPending, error } = useSignUp();
@@ -29,6 +29,15 @@ const SignupPage = () => {
 		e.preventDefault();
 		signUp(formData);
 	};
+
+	const { authUser } = useAuthUser();
+	const navigate = useNavigate();
+
+	useEffect(() => {
+		if (authUser) {
+			navigate("/");
+		}
+	}, [authUser, navigate]);
 
 	return (
 		<main className='flex flex-col min-h-screen md:flex-row md:relative'>

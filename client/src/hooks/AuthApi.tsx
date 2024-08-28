@@ -83,6 +83,69 @@ export const useAuthUser = () => {
 	return { authUser, isLoading };
 };
 
+export const useLogin = () => {
+	const queryClient = useQueryClient();
+
+	const { mutate, isPending, isError, error } = useMutation({
+		mutationFn: async (loginData: { identifier: string; password: string }) => {
+			try {
+				const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify(loginData),
+					credentials: "include",
+				});
+
+				const data = await response.json();
+				if (!response.ok) {
+					throw new Error(data.message || "Login failed");
+				}
+
+				return data;
+			} catch (error) {
+				console.error("Login error:", error);
+				throw error;
+			}
+		},
+		onSuccess: (data) => {
+			toast.success("Login successful");
+			queryClient.setQueryData(["authUser"], data);
+			queryClient.invalidateQueries({
+				queryKey: ["authUser"],
+			});
+		},
+	});
+	return { loginMutation: mutate, isPending, isError, error };
+};
+
 export const useLogout = () => {
 	const queryClient = useQueryClient();
+
+	const { mutate } = useMutation({
+		mutationFn: async () => {
+			try {
+				const response = await fetch(`${API_BASE_URL}/api/auth/logout`, {
+					method: "POST",
+					credentials: "include",
+				});
+				const data = await response.json();
+
+				if (!response.ok) {
+					throw new Error(data.error || "Unable to logout");
+				}
+			} catch (error) {
+				console.error(error);
+				throw error;
+			}
+		},
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ["authUser"] });
+		},
+		onError: (error) => {
+			console.error("Logout failed:", error);
+			toast.error("Logout failed");
+		},
+	});
+
+	return { authUser: mutate };
 };
