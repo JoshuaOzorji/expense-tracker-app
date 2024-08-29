@@ -23,6 +23,21 @@ const AddTransaction = () => {
 				</DialogHeader>
 				<div className='grid gap-2 py-4'>
 					<div className='flex items-center justify-between gap-2'>
+						{/* PAYMENT TYPE */}
+						{/* <div className='w-full'>
+							<label htmlFor='paymentType'>Payment Type</label>
+							<div className='label'>
+								<select
+									id='paymentType'
+									name='paymentType'
+									className='custom-input'>
+									<option value={"card"}>Card</option>
+									<option value={"cash"}>Cash</option>
+									<option value={"transfer"}>Transfer</option>
+								</select>
+							</div>
+						</div> */}
+
 						<span className='w-full'>
 							<SelectField
 								label='Payment Type'

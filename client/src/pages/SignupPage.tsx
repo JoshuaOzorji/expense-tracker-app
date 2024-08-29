@@ -186,7 +186,7 @@ const SignupPage = () => {
 							<p>{isPending ? "Loading..." : "Sign Up"}</p>
 						</button>
 						{isError && error && (
-							<p className='text-sm text-red-500 md:text-base'>
+							<p className='text-sm font-light text-center text-red-600 rounded-md'>
 								{error.message}
 							</p>
 						)}

@@ -1,9 +1,37 @@
+import { useAuthUser, useLogin } from "@/hooks/AuthApi";
 import loginImage from "/expense-register.png";
 import { CiUser } from "react-icons/ci";
 import { CiLock } from "react-icons/ci";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 
 const LoginPage = () => {
+	const { authUser } = useAuthUser();
+	const navigate = useNavigate();
+
+	useEffect(() => {
+		if (authUser) {
+			navigate("/");
+		}
+	}, [authUser, navigate]);
+
+	const { loginMutation, isPending, isError, error } = useLogin();
+
+	const [formData, setFormData] = useState({
+		identifier: "",
+		password: "",
+	});
+
+	const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+		const { name, value } = e.target;
+		setFormData({ ...formData, [name]: value });
+	};
+
+	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		loginMutation(formData);
+	};
+
 	return (
 		<main className='flex flex-col min-h-screen md:flex-row'>
 			<section className='hidden md:block md:w-[40%] bg-accent mx-auto min-h-screen justify-center'>
@@ -28,34 +56,50 @@ const LoginPage = () => {
 						</p>
 					</div>
 
-					<form className='space-y-4'>
-						<label htmlFor='identifier' className='label'>
-							<CiUser className='icon text-pry' />
-							<input
-								type='text'
-								placeholder='email or username'
-								name='identifier'
-								className='flex-grow outline-none bg-accent font-extralight'
-							/>
-						</label>
+					<form className='space-y-4' onSubmit={handleSubmit}>
+						<div>
+							<label htmlFor='username'>Email or Username</label>
+							<div className='label'>
+								<CiUser className='icon text-pry' />
+								<input
+									type='text'
+									name='identifier'
+									placeholder='email or username'
+									className='custom-input'
+									onChange={handleInputChange}
+									value={formData.identifier}
+								/>
+							</div>
+						</div>
 
-						<label htmlFor='password' className='label'>
-							<CiLock className='icon text-pry' />
-							<input
-								type='password'
-								placeholder='password'
-								name='password'
-								className='flex-grow outline-none bg-accent font-extralight'
-							/>
-						</label>
+						<div>
+							<label htmlFor='password'>Password</label>
+							<div className='label'>
+								<CiLock className='icon text-pry' />
+								<input
+									type='password'
+									name='password'
+									placeholder='password'
+									className='custom-input'
+									onChange={handleInputChange}
+									value={formData.password}
+								/>
+							</div>
+						</div>
 
 						<div className='text-h4 text-pry'>
 							<p className=''>Forgot password?</p>
 						</div>
 
 						<button className='button'>
-							<p>Login</p>
+							<p>{isPending ? "Loading..." : "Login"}</p>
 						</button>
+
+						{isError && error && (
+							<p className='text-sm font-light text-center text-red-600 rounded-md'>
+								{error.message}
+							</p>
+						)}
 					</form>
 
 					<div className='flex justify-center gap-2 pt-6 text-h4'>

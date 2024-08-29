@@ -71,9 +71,9 @@ export const signup = async (req: Request, res: Response) => {
 		const hashedPassword = await bcrypt.hash(password, salt);
 
 		// Generate a verification token
-		const verificationToken = Math.floor(
-			100000 + Math.random() * 900000,
-		).toString();
+		// const verificationToken = Math.floor(
+		// 	100000 + Math.random() * 900000,
+		// ).toString();
 
 		// Create new user
 		const newUser = new User({
@@ -83,8 +83,8 @@ export const signup = async (req: Request, res: Response) => {
 			email,
 			password: hashedPassword,
 			gender,
-			verificationToken,
-			verificationTokenExpiresAt: Date.now() + 24 * 60 * 60 * 1000, // 24 hours
+			// verificationToken,
+			// verificationTokenExpiresAt: Date.now() + 24 * 60 * 60 * 1000, // 24 hours
 		});
 
 		// Save the user and send verification email
@@ -93,7 +93,7 @@ export const signup = async (req: Request, res: Response) => {
 
 			await newUser.save();
 
-			await sendVerificationEmail(newUser.email, verificationToken);
+			// await sendVerificationEmail(newUser.email, verificationToken);
 
 			// Send response with user data (excluding password)
 			const userResponse = {

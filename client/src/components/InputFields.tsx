@@ -49,6 +49,8 @@ interface SelectFieldProps {
 	options: string[];
 	Icon?: IconType;
 	defaultValue?: string;
+	onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+	value: string;
 }
 
 export const SelectField = ({
@@ -56,14 +58,12 @@ export const SelectField = ({
 	label,
 	name,
 	options,
-	Icon,
 	defaultValue = "gender", // default to "gender"
 }: SelectFieldProps) => {
 	return (
 		<label htmlFor={name}>
 			{label}
 			<div className='label'>
-				{Icon && <Icon className='icon text-pry' />}
 				<select
 					id={id}
 					name={name}

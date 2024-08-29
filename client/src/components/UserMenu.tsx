@@ -19,7 +19,7 @@ const UserMenu = () => {
 				<DropdownMenuTrigger className='outline-none'>
 					<img
 						src={userImg}
-						alt=''
+						alt='logo'
 						className='object-cover w-8 h-8 rounded-full'
 					/>
 				</DropdownMenuTrigger>
