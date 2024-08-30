@@ -7,7 +7,7 @@ interface InputFieldProps {
 	name: string;
 	placeholder: string;
 	onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-	value: string;
+	value: string | number;
 	Icon?: IconType;
 }
 
@@ -27,7 +27,6 @@ export const InputField = ({
 
 			<div className='label'>
 				{Icon && <Icon className='icon text-pry' />}
-
 				<input
 					id={id}
 					type={type}
@@ -48,8 +47,7 @@ interface SelectFieldProps {
 	name: string;
 	options: string[];
 	Icon?: IconType;
-	defaultValue?: string;
-	onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+	onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 	value: string;
 }
 
@@ -58,7 +56,8 @@ export const SelectField = ({
 	label,
 	name,
 	options,
-	defaultValue = "gender", // default to "gender"
+	onChange,
+	value,
 }: SelectFieldProps) => {
 	return (
 		<label htmlFor={name}>
@@ -67,9 +66,10 @@ export const SelectField = ({
 				<select
 					id={id}
 					name={name}
-					defaultValue={defaultValue}
+					onChange={onChange}
+					value={value}
 					className='flex-grow outline-none bg-accent font-extralight'>
-					<option value='gender' disabled>
+					<option value='' disabled>
 						Select
 					</option>
 					{options.map((option) => (
@@ -88,26 +88,29 @@ interface DateInputFieldProps {
 	label: string;
 	name: string;
 	placeholder?: string;
-	Icon?: IconType;
+	onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+	value: string;
 }
 
 export const DateInputField = ({
 	id,
 	label,
 	name,
-	placeholder = "Select a date",
-	Icon,
+	onChange,
+	value,
+	placeholder = "Select date",
 }: DateInputFieldProps) => {
 	return (
 		<label htmlFor={name}>
 			{label}
 			<div className='label'>
-				{Icon && <Icon className='icon text-pry' />}
 				<input
 					id={id}
 					type='date'
 					name={name}
 					placeholder={placeholder}
+					onChange={onChange}
+					value={value}
 					className='flex-grow outline-none bg-accent font-extralight'
 				/>
 			</div>

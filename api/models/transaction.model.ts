@@ -27,14 +27,9 @@ const transactionSchema = new mongoose.Schema(
 			required: true,
 		},
 
-		income: {
-			type: Number,
-			default: 0,
-		},
-
 		location: {
 			type: String,
-			required: true,
+			// required: true,
 		},
 
 		date: {

@@ -14,18 +14,27 @@ const App = () => {
 		<main>
 			<Routes>
 				<Route element={<Layout2 />}>
-					<Route path='/login' element={<LoginPage />} />
+					<Route
+						path='/'
+						element={!authUser ? <LoginPage /> : <Navigate to='/dashboard' />}
+					/>
 
 					<Route
 						path='/signup'
-						element={!authUser ? <SignupPage /> : <Navigate to='/' />}
+						element={!authUser ? <SignupPage /> : <Navigate to='/dashboard' />}
 					/>
 				</Route>
 
 				<Route element={<Layout />}>
-					<Route path='/' element={<HomePage />} />
+					<Route
+						path='/dashboard'
+						element={authUser ? <HomePage /> : <Navigate to='/' />}
+					/>
 				</Route>
-				<Route path='*' element={<Navigate to='/' />} />
+				<Route
+					path='*'
+					element={<Navigate to={authUser ? "/dashboard" : "/"} />}
+				/>
 			</Routes>
 
 			<Toaster

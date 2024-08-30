@@ -16,7 +16,12 @@ interface SignUpType {
 export const useSignUp = () => {
 	const queryClient = useQueryClient();
 
-	const { mutate, isError, isPending, error } = useMutation({
+	const {
+		mutate: signUp,
+		isError,
+		isPending,
+		error,
+	} = useMutation({
 		mutationFn: async ({
 			username,
 			firstName,
@@ -55,7 +60,7 @@ export const useSignUp = () => {
 			queryClient.invalidateQueries({ queryKey: ["authUser"] });
 		},
 	});
-	return { signUp: mutate, isError, isPending, error };
+	return { signUp, isError, isPending, error };
 };
 
 export const useAuthUser = () => {
@@ -86,7 +91,12 @@ export const useAuthUser = () => {
 export const useLogin = () => {
 	const queryClient = useQueryClient();
 
-	const { mutate, isPending, isError, error } = useMutation({
+	const {
+		mutate: loginMutation,
+		isPending,
+		isError,
+		error,
+	} = useMutation({
 		mutationFn: async (loginData: { identifier: string; password: string }) => {
 			try {
 				const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
@@ -115,13 +125,13 @@ export const useLogin = () => {
 			});
 		},
 	});
-	return { loginMutation: mutate, isPending, isError, error };
+	return { loginMutation, isPending, isError, error };
 };
 
 export const useLogout = () => {
 	const queryClient = useQueryClient();
 
-	const { mutate } = useMutation({
+	const { mutate: logout } = useMutation({
 		mutationFn: async () => {
 			try {
 				const response = await fetch(`${API_BASE_URL}/api/auth/logout`, {
@@ -147,5 +157,5 @@ export const useLogout = () => {
 		},
 	});
 
-	return { authUser: mutate };
+	return { logout };
 };

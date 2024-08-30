@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import FilterMenu from "./FilterMenu";
-import AddTransaction from "./AddTransaction";
+import AddTransaction from "./TransactionForm";
 
 const Activity = () => {
 	return (

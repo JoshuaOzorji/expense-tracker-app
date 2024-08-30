@@ -3,6 +3,15 @@ import toast from "react-hot-toast";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
+interface TransactionData {
+	description: string;
+	paymentType: string;
+	category: string;
+	amount: number;
+	location: string;
+	date: Date;
+}
+
 export const useCreateTransaction = () => {
 	const queryClient = useQueryClient();
 
@@ -12,14 +21,20 @@ export const useCreateTransaction = () => {
 		isError,
 		error,
 	} = useMutation({
-		mutationFn: async (transactionData) => {
+		mutationFn: async (transactionData: TransactionData) => {
 			try {
-				const response = await fetch(`$${API_BASE_URL}/api/transactions`, {
+				const bodyData = {
+					...transactionData,
+					date: transactionData.date.toISOString(),
+				};
+
+				const response = await fetch(`${API_BASE_URL}/api/transaction/create`, {
 					method: "POST",
+					credentials: "include",
 					headers: {
 						"Content-Type": "application/json",
 					},
-					body: JSON.stringify(transactionData),
+					body: JSON.stringify(bodyData),
 				});
 
 				const data = await response.json();
@@ -34,7 +49,7 @@ export const useCreateTransaction = () => {
 		},
 
 		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ["transaction"] });
+			queryClient.invalidateQueries({ queryKey: ["transactions"] });
 			toast.success("Transaction added successfully");
 		},
 		onError: (error) => {

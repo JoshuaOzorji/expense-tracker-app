@@ -35,7 +35,7 @@ const SignupPage = () => {
 
 	useEffect(() => {
 		if (authUser) {
-			navigate("/");
+			navigate("/dashboard");
 		}
 	}, [authUser, navigate]);
 
@@ -194,7 +194,7 @@ const SignupPage = () => {
 
 					<div className='flex justify-center gap-2 pt-6 text-h4'>
 						<p className='text-sec'>Already have an account</p>{" "}
-						<Link className='text-pry hover:underline' to={"/login"}>
+						<Link className='text-pry hover:underline' to={"/"}>
 							Log in
 						</Link>
 					</div>
@@ -203,11 +203,7 @@ const SignupPage = () => {
 
 			<section className='hidden md:block md:w-[40%] bg-accent mx-auto min-h-screen justify-center md:fixed right-0 top-0'>
 				<div className=''>
-					<img
-						src={signupImage}
-						alt='login image'
-						className='object-contain '
-					/>
+					<img src={signupImage} alt='login image' className='object-contain' />
 				</div>
 			</section>
 		</main>

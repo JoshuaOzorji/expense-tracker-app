@@ -11,7 +11,7 @@ import userImg from "/mrjosh.png";
 import { useLogout } from "@/hooks/AuthApi";
 
 const UserMenu = () => {
-	const { authUser: logout } = useLogout();
+	const { logout } = useLogout();
 
 	return (
 		<div>
