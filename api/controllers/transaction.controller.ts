@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import handleServerError from "../utils/errorHandler";
 import Transaction from "../models/transaction.model";
+import { SortOrder } from "mongoose"; // Ensure this is imported
 
 export const createTransaction = async (req: Request, res: Response) => {
 	try {
@@ -81,31 +82,59 @@ export const getTransaction = async (req: Request, res: Response) => {
 // 	}
 // };
 
+// export const getTransactions = async (req: Request, res: Response) => {
+// 	try {
+// 		const userId = req.user._id;
+// 		const sortField = (req.query.sortField as string) || "createdAt";
+// 		const sortOrder = req.query.sortOrder === "asc" ? 1 : -1;
+
+// 		// Ensure the sortField is one of the allowed fields
+// 		const allowedSortFields = [
+// 			"category",
+// 			"amount",
+// 			"date",
+// 			"paymentType",
+// 			"createdAt",
+// 		];
+// 		if (!allowedSortFields.includes(sortField)) {
+// 			return res.status(400).json({ error: "Invalid sort field" });
+// 		}
+
+// 		// Fetch and sort transactions
+// 		const transactions = await Transaction.find({ userId }).sort({
+// 			[sortField]: sortOrder,
+// 		});
+
+// 		res.status(200).json(transactions);
+// 	} catch (error: any) {
+// 		handleServerError(res, error, "getTransactions");
+// 	}
+// };
+
 export const getTransactions = async (req: Request, res: Response) => {
 	try {
+		// Extract user ID
 		const userId = req.user._id;
 
-		// Extract sorting parameters from the query and cast sortField to string
-		const sortField = (req.query.sortField as string) || "createdAt"; // Default sorting by createdAt
-		const sortOrder = req.query.sortOrder === "asc" ? 1 : -1; // Default to descending order
+		// Define allowed sort fields, excluding 'createdAt' and 'date'
+		const allowedSortFields = ["category", "amount", "paymentType"];
+		const sortField = req.query.sortField as string;
+		const sortOrder: SortOrder = req.query.sortOrder === "asc" ? 1 : -1;
 
-		// Ensure the sortField is one of the allowed fields
-		const allowedSortFields = [
-			"category",
-			"amount",
-			"date",
-			"paymentType",
-			"createdAt",
-		];
-		if (!allowedSortFields.includes(sortField)) {
+		// Validate the sortField, if provided
+		if (sortField && !allowedSortFields.includes(sortField)) {
 			return res.status(400).json({ error: "Invalid sort field" });
 		}
 
-		// Fetch and sort transactions
-		const transactions = await Transaction.find({ userId }).sort({
-			[sortField]: sortOrder, // Correct computed property name
-		});
+		// Create sort criteria, combining selected field with default date sorting
+		const sortCriteria: { [key: string]: SortOrder } = sortField
+			? { [sortField]: sortOrder, date: 1 }
+			: { date: 1 };
 
+		// Fetch transactions based on sort criteria
+		const transactions = await Transaction.find({ userId }).sort(sortCriteria);
+
+		// Return transactions
 		res.status(200).json(transactions);
 	} catch (error: any) {
 		handleServerError(res, error, "getTransactions");

@@ -1,6 +1,6 @@
-import { Link } from "react-router-dom";
 import FilterMenu from "./FilterMenu";
 import AddTransaction from "./TransactionForm";
+import Cards from "./Cards";
 
 const Activity = () => {
 	return (
@@ -14,23 +14,7 @@ const Activity = () => {
 				</div>
 			</header>
 
-			<Link
-				to='/update'
-				className='flex justify-between border rounded-md md:p-3 border-sec'>
-				<div className='flex flex-col md:w-[70%] text-left'>
-					<span className='font-bold md:text-xl'>Investment</span>
-					<span className='text-sm'>
-						Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime
-						mollitia, molestiae quas vel sint commodi repudiandae consequuntur
-						voluptatum laborum numquam blanditiis harum
-					</span>
-				</div>
-
-				<div className='flex flex-col md:w-[30%] text-right'>
-					<span className='font-bold md:text-xl'>$40</span>
-					<span className='text-sm'>21-Aug-24</span>
-				</div>
-			</Link>
+			<Cards />
 		</main>
 	);
 };
