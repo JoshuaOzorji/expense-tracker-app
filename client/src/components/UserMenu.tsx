@@ -8,10 +8,11 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "./ui/button";
 import userImg from "/mrjosh.png";
-import { useLogout } from "@/hooks/AuthApi";
+import { useAuthUser, useLogout } from "@/hooks/AuthApi";
 
 const UserMenu = () => {
 	const { logout } = useLogout();
+	const { authUser } = useAuthUser();
 
 	return (
 		<div>
@@ -24,7 +25,7 @@ const UserMenu = () => {
 					/>
 				</DropdownMenuTrigger>
 				<DropdownMenuContent className='mr-3 md:mr-4'>
-					<DropdownMenuLabel>Hi, [FirstName]</DropdownMenuLabel>
+					<DropdownMenuLabel>Hi, {authUser?.firstName}</DropdownMenuLabel>
 					<DropdownMenuSeparator />
 					<DropdownMenuItem>
 						<button className='p-1 rounded-md hover:bg-accent'>

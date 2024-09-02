@@ -1,6 +1,7 @@
 import { Chart as ChartJS, ArcElement, Tooltip } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 import AddTransaction from "./TransactionForm";
+import GreetingCard from "./GreetingCard";
 
 const chartData = {
 	labels: ["Investments", "Savings", "Essentials", "Discretionary"],
@@ -31,7 +32,9 @@ const Dashboard = () => {
 	return (
 		<main className='p-2 border rounded-md shadow-md '>
 			<div className='flex items-center justify-between'>
-				<p className='p-2'>Good morning, [FIRST_NAME]</p>
+				<p className='p-2'>
+					<GreetingCard />
+				</p>
 				<AddTransaction />
 			</div>
 

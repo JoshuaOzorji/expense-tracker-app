@@ -12,8 +12,7 @@ import { useCreateTransaction } from "@/hooks/TransactionApi";
 import { ChangeEvent, FormEvent, useState } from "react";
 
 const TransactionForm = () => {
-	const { createTransaction, isPending, isError, error } =
-		useCreateTransaction();
+	const { createTransaction, isPending } = useCreateTransaction();
 
 	const [formData, setFormData] = useState({
 		paymentType: "",
@@ -138,17 +137,6 @@ const TransactionForm = () => {
 						onChange={handleInputChange}
 						value={formData.description}
 					/>
-
-					{isError && error && (
-						<>
-							<p className='text-sm text-center text-red-600 rounded-md'>
-								{error.message}
-							</p>
-							<pre className='text-xs text-red-600'>
-								{JSON.stringify(error, null, 2)}
-							</pre>
-						</>
-					)}
 
 					<DialogFooter>
 						<button type='submit' className='buttonSm'>

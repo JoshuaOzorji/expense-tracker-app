@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import handleServerError from "../utils/errorHandler";
 import Transaction from "../models/transaction.model";
 import { SortOrder } from "mongoose"; // Ensure this is imported
+import { formatDate } from "../utils/formatDate";
 
 export const createTransaction = async (req: Request, res: Response) => {
 	try {
@@ -62,69 +63,28 @@ export const getTransaction = async (req: Request, res: Response) => {
 			return res.status(404).json({ message: "Transaction not found" });
 		}
 
+		transaction.formattedDate = formatDate(new Date(transaction.date));
+
 		res.status(200).json(transaction);
 	} catch (error: any) {
 		handleServerError(res, error, "getTransaction");
 	}
 };
 
-// export const getTransactions = async (req: Request, res: Response) => {
-// 	try {
-// 		const userId = req.user._id;
-
-// 		const transactions = await Transaction.find({ userId }).sort({
-// 			createdAt: -1,
-// 		});
-
-// 		res.status(200).json(transactions);
-// 	} catch (error: any) {
-// 		handleServerError(res, error, "getTransactions");
-// 	}
-// };
-
-// export const getTransactions = async (req: Request, res: Response) => {
-// 	try {
-// 		const userId = req.user._id;
-// 		const sortField = (req.query.sortField as string) || "createdAt";
-// 		const sortOrder = req.query.sortOrder === "asc" ? 1 : -1;
-
-// 		// Ensure the sortField is one of the allowed fields
-// 		const allowedSortFields = [
-// 			"category",
-// 			"amount",
-// 			"date",
-// 			"paymentType",
-// 			"createdAt",
-// 		];
-// 		if (!allowedSortFields.includes(sortField)) {
-// 			return res.status(400).json({ error: "Invalid sort field" });
-// 		}
-
-// 		// Fetch and sort transactions
-// 		const transactions = await Transaction.find({ userId }).sort({
-// 			[sortField]: sortOrder,
-// 		});
-
-// 		res.status(200).json(transactions);
-// 	} catch (error: any) {
-// 		handleServerError(res, error, "getTransactions");
-// 	}
-// };
-
 export const getTransactions = async (req: Request, res: Response) => {
 	try {
-		// Extract user ID
 		const userId = req.user._id;
 
-		// Define allowed sort fields, excluding 'createdAt' and 'date'
 		const allowedSortFields = ["category", "amount", "paymentType"];
 		const sortField = req.query.sortField as string;
-		const sortOrder: SortOrder = req.query.sortOrder === "asc" ? 1 : -1;
 
 		// Validate the sortField, if provided
 		if (sortField && !allowedSortFields.includes(sortField)) {
 			return res.status(400).json({ error: "Invalid sort field" });
 		}
+
+		// Determine sort order for the sortField
+		const sortOrder: SortOrder = sortField === "amount" ? -1 : 1;
 
 		// Create sort criteria, combining selected field with default date sorting
 		const sortCriteria: { [key: string]: SortOrder } = sortField

@@ -11,7 +11,7 @@ const Card = ({ transactionId }: CardProps) => {
 
 	if (isLoading) {
 		return (
-			<div className='h-screen flex justify-center items-center'>
+			<div className='flex items-center justify-center h-screen'>
 				<LoadingSpinner size='lg' />
 			</div>
 		);
@@ -20,15 +20,17 @@ const Card = ({ transactionId }: CardProps) => {
 	return (
 		<Link
 			to='/update'
-			className='flex justify-between border rounded-md md:p-3 border-sec'>
+			className='flex justify-between border rounded-md md:p-3 border-sec hover:shadow-md animate'>
 			<div className='flex flex-col md:w-[70%] text-left'>
-				<span className='font-bold md:text-xl'>{transaction?.category}</span>
-				<span className='text-sm'>{transaction?.description}</span>
+				<span className='font-bold md:text-base capitalize'>
+					{transaction?.description}
+				</span>
+				<span className='text-sm capitalize'>{transaction?.category}</span>
 			</div>
 
 			<div className='flex flex-col md:w-[30%] text-right'>
-				<span className='font-bold md:text-xl'>#{transaction?.amount}</span>
-				<span className='text-sm'>21-Aug-24</span>
+				<span className='font-bold md:text-xl'>₦{transaction?.amount}</span>
+				<span className='text-sm'>{transaction?.date}</span>
 			</div>
 		</Link>
 	);

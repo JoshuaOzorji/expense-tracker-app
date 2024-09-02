@@ -15,12 +15,7 @@ interface TransactionData {
 export const useCreateTransaction = () => {
 	const queryClient = useQueryClient();
 
-	const {
-		mutate: createTransaction,
-		isPending,
-		isError,
-		error,
-	} = useMutation({
+	const { mutate: createTransaction, isPending } = useMutation({
 		mutationFn: async (transactionData: TransactionData) => {
 			try {
 				const bodyData = {
@@ -58,7 +53,7 @@ export const useCreateTransaction = () => {
 		},
 	});
 
-	return { createTransaction, isPending, isError, error };
+	return { createTransaction, isPending };
 };
 
 export const useGetTransaction = (transactionId: string) => {
@@ -94,57 +89,6 @@ export const useGetTransaction = (transactionId: string) => {
 	return { transaction, isLoading };
 };
 
-// interface Transaction {
-// 	description: string;
-// 	paymentType: string;
-// 	category: string;
-// 	amount: number;
-// 	location: string;
-// 	date: Date;
-// }
-
-// interface UseGetTransactionsParams {
-// 	sortField?: string;
-// 	sortOrder?: "asc" | "desc";
-// }
-
-// export const useGetTransactions = ({
-// 	sortField,
-// 	sortOrder,
-// }: UseGetTransactionsParams = {}) => {
-// 	const queryKey = ["transactions", { sortField, sortOrder }];
-
-// 	const { data: transactions, isLoading } = useQuery(queryKey, async () => {
-// 		try {
-// 			const url = new URL(`${API_BASE_URL}/api/transactions`);
-// 			if (sortField) url.searchParams.append("sortField", sortField);
-// 			if (sortOrder) url.searchParams.append("sortOrder", sortOrder);
-
-// 			const response = await fetch(url.toString(), {
-// 				method: "GET",
-// 				credentials: "include",
-// 				headers: {
-// 					"Content-Type": "application/json",
-// 				},
-// 			});
-
-// 			const data = await response.json();
-
-// 			if (!response.ok) {
-// 				throw new Error(data.error || "Unable to fetch transactions");
-// 			}
-
-// 			return data;
-// 		} catch (error) {
-// 			console.error("Fetch transactions failed:", error);
-// 			toast.error("Failed to load transactions");
-// 			throw error;
-// 		}
-// 	});
-
-// 	return { transactions, isLoading };
-// };
-
 interface Transaction {
 	_id: string;
 	description: string;
@@ -153,25 +97,21 @@ interface Transaction {
 	amount: number;
 	location: string;
 	date: Date;
+	formattedDate?: string;
 }
 
 interface UseGetTransactionsParams {
 	sortField?: string;
-	sortOrder?: "asc" | "desc";
 }
 
 export const useGetTransactions = ({
 	sortField,
-	sortOrder,
 }: UseGetTransactionsParams = {}) => {
-	// Define a query key as a tuple with a string and an object for dynamic parameters
-	const queryKey: QueryKey = ["transactions", { sortField, sortOrder }];
-
+	// Define the query function
 	const fetchTransactions = async (): Promise<Transaction[]> => {
 		try {
 			const url = new URL(`${API_BASE_URL}/api/transaction`);
 			if (sortField) url.searchParams.append("sortField", sortField);
-			if (sortOrder) url.searchParams.append("sortOrder", sortOrder);
 
 			const response = await fetch(url.toString(), {
 				method: "GET",
@@ -191,17 +131,15 @@ export const useGetTransactions = ({
 		} catch (error) {
 			console.error("Fetch transactions failed:", error);
 			toast.error("Failed to load transactions");
-			throw error; // Rethrow to ensure `useQuery` handles it as a failed state
+			throw error;
 		}
 	};
 
-	// Use useQuery with a typed query key and query function
-	const {
-		data: transactions,
-		isLoading,
-		isError,
-		error,
-	} = useQuery<Transaction[], Error>(queryKey, fetchTransactions);
+	// Pass the queryKey and queryFn as part of an options object
+	const { data: transactions, isLoading } = useQuery<Transaction[], Error>({
+		queryKey: ["transactions", { sortField }],
+		queryFn: fetchTransactions,
+	});
 
-	return { transactions, isLoading, isError, error };
+	return { transactions, isLoading };
 };
