@@ -30,7 +30,7 @@ const Card = ({ transactionId }: CardProps) => {
 
 			<div className='flex flex-col md:w-[30%] text-right'>
 				<span className='font-bold md:text-xl'>₦{transaction?.amount}</span>
-				<span className='text-sm'>{transaction?.date}</span>
+				<span className='text-sm'>{transaction?.formattedDate}</span>
 			</div>
 		</Link>
 	);

@@ -15,7 +15,12 @@ interface TransactionData {
 export const useCreateTransaction = () => {
 	const queryClient = useQueryClient();
 
-	const { mutate: createTransaction, isPending } = useMutation({
+	const {
+		mutate: createTransaction,
+		isPending,
+		isError,
+		error,
+	} = useMutation({
 		mutationFn: async (transactionData: TransactionData) => {
 			try {
 				const bodyData = {
@@ -23,28 +28,40 @@ export const useCreateTransaction = () => {
 					date: transactionData.date.toISOString(),
 				};
 
-				const response = await fetch(`${API_BASE_URL}/api/transaction/create`, {
-					method: "POST",
-					credentials: "include",
-					headers: {
-						"Content-Type": "application/json",
+				const response = await fetch(
+					`${API_BASE_URL}/api/transaction/create`,
+					{
+						method: "POST",
+						credentials: "include",
+						headers: {
+							"Content-Type":
+								"application/json",
+						},
+						body: JSON.stringify(bodyData),
 					},
-					body: JSON.stringify(bodyData),
-				});
+				);
 
 				const data = await response.json();
 
 				if (!response.ok) {
-					throw new Error(data.error || "Unable to create transaction");
+					throw new Error(
+						data.error ||
+							"Unable to create transaction",
+					);
 				}
 			} catch (error) {
-				console.error("Create transaction failed:", error);
+				console.error(
+					"Create transaction failed:",
+					error,
+				);
 				throw error;
 			}
 		},
 
 		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ["transactions"] });
+			queryClient.invalidateQueries({
+				queryKey: ["transactions"],
+			});
 			toast.success("Transaction added successfully");
 		},
 		onError: (error) => {
@@ -53,11 +70,24 @@ export const useCreateTransaction = () => {
 		},
 	});
 
-	return { createTransaction, isPending };
+	return { createTransaction, isPending, isError, error };
 };
 
+export interface TransactionType {
+	createdAt: Date;
+	updatedAt: Date;
+	userId: string;
+	date: Date;
+	description: string;
+	paymentType: "cash" | "card" | "transfer";
+	category: "investments" | "savings" | "essentials" | "discretionary";
+	amount: number;
+	location?: string;
+	formattedDate?: string;
+}
+
 export const useGetTransaction = (transactionId: string) => {
-	const { data: transaction, isLoading } = useQuery({
+	const { data: transaction, isLoading } = useQuery<TransactionType>({
 		queryKey: ["transaction", transactionId],
 		queryFn: async () => {
 			try {
@@ -67,7 +97,8 @@ export const useGetTransaction = (transactionId: string) => {
 						method: "GET",
 						credentials: "include",
 						headers: {
-							"Content-Type": "application/json",
+							"Content-Type":
+								"application/json",
 						},
 					},
 				);
@@ -75,12 +106,18 @@ export const useGetTransaction = (transactionId: string) => {
 				const data = await response.json();
 
 				if (!response.ok) {
-					throw new Error(data.error || "Unable to fetch transaction");
+					throw new Error(
+						data.error ||
+							"Unable to fetch transaction",
+					);
 				}
 
 				return data;
 			} catch (error) {
-				console.error("Failed to fetch transaction:", error);
+				console.error(
+					"Failed to fetch transaction:",
+					error,
+				);
 				toast.error("Failed to fetch transaction");
 			}
 		},
@@ -111,7 +148,8 @@ export const useGetTransactions = ({
 	const fetchTransactions = async (): Promise<Transaction[]> => {
 		try {
 			const url = new URL(`${API_BASE_URL}/api/transaction`);
-			if (sortField) url.searchParams.append("sortField", sortField);
+			if (sortField)
+				url.searchParams.append("sortField", sortField);
 
 			const response = await fetch(url.toString(), {
 				method: "GET",
@@ -124,7 +162,10 @@ export const useGetTransactions = ({
 			const data = await response.json();
 
 			if (!response.ok) {
-				throw new Error(data.error || "Unable to fetch transactions");
+				throw new Error(
+					data.error ||
+						"Unable to fetch transactions",
+				);
 			}
 
 			return data;
@@ -136,7 +177,10 @@ export const useGetTransactions = ({
 	};
 
 	// Pass the queryKey and queryFn as part of an options object
-	const { data: transactions, isLoading } = useQuery<Transaction[], Error>({
+	const { data: transactions, isLoading } = useQuery<
+		Transaction[],
+		Error
+	>({
 		queryKey: ["transactions", { sortField }],
 		queryFn: fetchTransactions,
 	});

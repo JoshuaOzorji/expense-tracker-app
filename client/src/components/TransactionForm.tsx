@@ -23,6 +23,19 @@ const TransactionForm = () => {
 		description: "",
 	});
 
+	const handleAmountChange = (e: ChangeEvent<HTMLInputElement>) => {
+		const { value } = e.target;
+
+		const cleanedValue = value.replace(/,/g, "");
+
+		const numericValue = parseFloat(cleanedValue) || 0;
+
+		setFormData((prevData) => ({
+			...prevData,
+			amount: numericValue,
+		}));
+	};
+
 	const handleInputChange = (
 		e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
 	) => {
@@ -42,7 +55,11 @@ const TransactionForm = () => {
 
 	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		if (!formData.paymentType || !formData.category || !formData.location) {
+		if (
+			!formData.paymentType ||
+			!formData.category ||
+			!formData.location
+		) {
 			console.error("All required fields must be filled.");
 			return;
 		}
@@ -62,18 +79,30 @@ const TransactionForm = () => {
 			</DialogTrigger>
 			<DialogContent>
 				<DialogHeader>
-					<DialogTitle>Add transaction</DialogTitle>
+					<DialogTitle>
+						Add transaction
+					</DialogTitle>
 				</DialogHeader>
-				<form onSubmit={handleSubmit} className='grid gap-2 py-4'>
+				<form
+					onSubmit={handleSubmit}
+					className='grid gap-2 py-4'>
 					<div className='flex items-center justify-between gap-2'>
 						<span className='w-full'>
 							<SelectField
 								label='Payment Type'
 								id='paymentType'
 								name='paymentType'
-								options={["cash", "card", "transfer"]}
-								onChange={handleInputChange}
-								value={formData.paymentType}
+								options={[
+									"cash",
+									"card",
+									"transfer",
+								]}
+								onChange={
+									handleInputChange
+								}
+								value={
+									formData.paymentType
+								}
 							/>
 						</span>
 
@@ -88,8 +117,12 @@ const TransactionForm = () => {
 									"essentials",
 									"discretionary",
 								]}
-								onChange={handleInputChange}
-								value={formData.category}
+								onChange={
+									handleInputChange
+								}
+								value={
+									formData.category
+								}
 							/>
 						</span>
 					</div>
@@ -97,13 +130,17 @@ const TransactionForm = () => {
 					<div className='flex justify-between gap-2'>
 						<span className='w-full'>
 							<InputField
-								label='Amount'
+								label='Amount (₦)'
 								id='amount'
-								type='number'
+								type='text'
 								name='amount'
-								placeholder='Amount'
-								onChange={handleInputChange}
-								value={formData.amount}
+								placeholder='₦'
+								onChange={
+									handleAmountChange
+								}
+								value={Number(
+									formData.amount,
+								).toLocaleString()}
 							/>
 						</span>
 
@@ -114,8 +151,12 @@ const TransactionForm = () => {
 								type='text'
 								name='location'
 								placeholder='location'
-								onChange={handleInputChange}
-								value={formData.location}
+								onChange={
+									handleInputChange
+								}
+								value={
+									formData.location
+								}
 							/>
 						</span>
 					</div>
@@ -125,7 +166,9 @@ const TransactionForm = () => {
 						id='date'
 						name='date'
 						onChange={handleDateChange}
-						value={formData.date.toISOString().substring(0, 10)}
+						value={formData.date
+							.toISOString()
+							.substring(0, 10)}
 					/>
 
 					<InputField
@@ -139,8 +182,14 @@ const TransactionForm = () => {
 					/>
 
 					<DialogFooter>
-						<button type='submit' className='buttonSm'>
-							<p>{isPending ? "Loading..." : "Add Transaction"}</p>
+						<button
+							type='submit'
+							className='buttonSm'>
+							<p>
+								{isPending
+									? "Loading..."
+									: "Add Transaction"}
+							</p>
 						</button>
 					</DialogFooter>
 				</form>

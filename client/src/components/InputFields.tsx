@@ -68,12 +68,14 @@ export const SelectField = ({
 					name={name}
 					onChange={onChange}
 					value={value}
-					className='flex-grow outline-none bg-accent font-extralight'>
+					className='flex-grow outline-none bg-accent font-extralight capitalize'>
 					<option value='' disabled>
 						Select
 					</option>
 					{options.map((option) => (
-						<option key={option} value={option}>
+						<option
+							key={option}
+							value={option}>
 							{option}
 						</option>
 					))}
