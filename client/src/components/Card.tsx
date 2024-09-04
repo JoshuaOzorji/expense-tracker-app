@@ -7,15 +7,7 @@ interface CardProps {
 }
 
 const Card = ({ transactionId }: CardProps) => {
-	const { transaction, isLoading } = useGetTransaction(transactionId);
-
-	if (isLoading) {
-		return (
-			<div className='flex items-center justify-center h-screen'>
-				<LoadingSpinner size='lg' />
-			</div>
-		);
-	}
+	const { transaction } = useGetTransaction(transactionId);
 
 	return (
 		<Link
@@ -25,12 +17,18 @@ const Card = ({ transactionId }: CardProps) => {
 				<span className='font-bold md:text-base capitalize'>
 					{transaction?.description}
 				</span>
-				<span className='text-sm capitalize'>{transaction?.category}</span>
+				<span className='text-sm capitalize'>
+					{transaction?.category}
+				</span>
 			</div>
 
 			<div className='flex flex-col md:w-[30%] text-right'>
-				<span className='font-bold md:text-xl'>₦{transaction?.amount}</span>
-				<span className='text-sm'>{transaction?.formattedDate}</span>
+				<span className='font-bold md:text-xl'>
+					₦{transaction?.amount}
+				</span>
+				<span className='text-sm'>
+					{transaction?.formattedDate}
+				</span>
 			</div>
 		</Link>
 	);

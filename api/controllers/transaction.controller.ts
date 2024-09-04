@@ -6,6 +6,13 @@ import { formatDate } from "../utils/formatDate";
 
 export const createTransaction = async (req: Request, res: Response) => {
 	try {
+		const { amount } = req.body;
+
+		if (amount < 1) {
+			return res
+				.status(400)
+				.json({ error: "Amount must be at least 1" });
+		}
 		const userId = req.user._id.toString();
 
 		const transaction = new Transaction({ ...req.body, userId });
@@ -113,10 +120,11 @@ export const getTransactions = async (req: Request, res: Response) => {
 		}
 
 		const sortOrder: SortOrder = sortField === "amount" ? -1 : 1;
+		const dateSortOrder: SortOrder = -1;
 
 		const sortCriteria: { [key: string]: SortOrder } = sortField
-			? { [sortField]: sortOrder, date: 1 }
-			: { date: 1 };
+			? { [sortField]: sortOrder, date: dateSortOrder }
+			: { date: dateSortOrder };
 
 		const transactions = await Transaction.find({ userId }).sort(
 			sortCriteria,
@@ -125,5 +133,33 @@ export const getTransactions = async (req: Request, res: Response) => {
 		res.status(200).json(transactions);
 	} catch (error: any) {
 		handleServerError(res, error, "getTransactions");
+	}
+};
+
+export const categoryStatistics = async (req: Request, res: Response) => {
+	try {
+		const userId = req.user._id;
+
+		const transactions = await Transaction.find({ userId });
+
+		const categoryMap: { [key: string]: number } = {};
+
+		transactions.forEach((transaction) => {
+			if (!categoryMap[transaction.category]) {
+				categoryMap[transaction.category] = 0;
+			}
+			categoryMap[transaction.category] += transaction.amount;
+		});
+
+		const statistics = Object.entries(categoryMap).map(
+			([category, totalAmount]) => ({
+				category,
+				totalAmount,
+			}),
+		);
+
+		res.status(200).json(statistics);
+	} catch (error: any) {
+		handleServerError(res, error, "categoryStatistics");
 	}
 };

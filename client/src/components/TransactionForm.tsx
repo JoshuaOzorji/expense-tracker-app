@@ -12,7 +12,8 @@ import { useCreateTransaction } from "@/hooks/TransactionApi";
 import { ChangeEvent, FormEvent, useState } from "react";
 
 const TransactionForm = () => {
-	const { createTransaction, isPending } = useCreateTransaction();
+	const { createTransaction, isPending, isError, error } =
+		useCreateTransaction();
 
 	const [formData, setFormData] = useState({
 		paymentType: "",
@@ -55,14 +56,6 @@ const TransactionForm = () => {
 
 	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		if (
-			!formData.paymentType ||
-			!formData.category ||
-			!formData.location
-		) {
-			console.error("All required fields must be filled.");
-			return;
-		}
 
 		const transactionData = {
 			...formData,
@@ -134,7 +127,7 @@ const TransactionForm = () => {
 								id='amount'
 								type='text'
 								name='amount'
-								placeholder='₦'
+								placeholder='amount'
 								onChange={
 									handleAmountChange
 								}
@@ -180,6 +173,12 @@ const TransactionForm = () => {
 						onChange={handleInputChange}
 						value={formData.description}
 					/>
+
+					{isError && error && (
+						<p className='text-sm font-light text-center text-red-600 rounded-md'>
+							{error.message}
+						</p>
+					)}
 
 					<DialogFooter>
 						<button

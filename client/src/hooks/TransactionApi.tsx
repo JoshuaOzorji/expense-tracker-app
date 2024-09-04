@@ -46,7 +46,7 @@ export const useCreateTransaction = () => {
 				if (!response.ok) {
 					throw new Error(
 						data.error ||
-							"Unable to create transaction",
+							"all inputs are required",
 					);
 				}
 			} catch (error) {
@@ -144,7 +144,6 @@ interface UseGetTransactionsParams {
 export const useGetTransactions = ({
 	sortField,
 }: UseGetTransactionsParams = {}) => {
-	// Define the query function
 	const fetchTransactions = async (): Promise<Transaction[]> => {
 		try {
 			const url = new URL(`${API_BASE_URL}/api/transaction`);

@@ -1,6 +1,6 @@
 import { useGetTransactions } from "@/hooks/TransactionApi";
 import Card from "./Card";
-import FilterMenu from "./SortMenu";
+import SortMenu from "./SortMenu";
 import AddTransaction from "./TransactionForm";
 import LoadingSpinner from "./LoadingSpinner";
 import { useState } from "react";
@@ -24,7 +24,7 @@ const Activity = () => {
 
 				<div className='flex gap-3'>
 					<AddTransaction />
-					<FilterMenu
+					<SortMenu
 						onSortFieldChange={setSortField}
 					/>
 				</div>
