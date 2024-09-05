@@ -60,7 +60,10 @@ export const useCreateTransaction = () => {
 
 		onSuccess: () => {
 			queryClient.invalidateQueries({
-				queryKey: ["transactions"],
+				queryKey: [
+					"transactions",
+					"categoryStatistics",
+				],
 			});
 			toast.success("Transaction added successfully");
 		},
@@ -185,4 +188,56 @@ export const useGetTransactions = ({
 	});
 
 	return { transactions, isLoading };
+};
+
+export type CategoryStatistics = {
+	category: string;
+	totalAmount: number;
+};
+
+export const useCategoryStatistics = () => {
+	const {
+		data: statistics,
+		isLoading,
+		isError,
+	} = useQuery<CategoryStatistics[]>({
+		queryKey: ["categoryStatistics"],
+		queryFn: async () => {
+			try {
+				const response = await fetch(
+					`${API_BASE_URL}/api/transaction/category-statistics`,
+					{
+						method: "GET",
+						credentials: "include",
+						headers: {
+							"Content-Type":
+								"application/json",
+						},
+					},
+				);
+
+				const data = await response.json();
+
+				if (!response.ok) {
+					throw new Error(
+						data.error ||
+							"Unable to fetch category statistics",
+					);
+				}
+
+				return data;
+			} catch (error) {
+				console.error(
+					"Failed to fetch category statistics:",
+					error,
+				);
+				toast.error(
+					"Failed to fetch category statistics",
+				);
+			}
+		},
+		retry: 1,
+	});
+
+	return { statistics, isLoading, isError };
 };
