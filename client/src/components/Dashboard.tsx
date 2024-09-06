@@ -74,7 +74,7 @@ const Dashboard = () => {
 				<AddTransaction />
 			</div>
 
-			<div className='flex flex-col items-center max-h-screen gap-3 md:flex-row shadow-accent'>
+			<div className='flex flex-col items-center max-h-screen gap-4 md:flex-row shadow-accent'>
 				<section className='md:w-[50%]'>
 					{/* CHART */}
 					<div className='flex justify-center items-center w-full h-auto mx-auto md:max-h-[75vh]'>
@@ -91,7 +91,7 @@ const Dashboard = () => {
 					</div>
 				</section>
 
-				<section className='md:w-[50%] p-2 flex flex-col gap-3'>
+				<section className='w-full md:w-[50%] p-2 flex flex-col gap-3'>
 					{statistics?.map((stat, index) => (
 						<div
 							key={stat.category}
@@ -129,7 +129,7 @@ const Dashboard = () => {
 						</div>
 					))}
 
-					<div className='flex items-center justify-between my-1 font-bold text-black'>
+					<div className='flex items-center justify-between my-1 font-bold text-black px-2'>
 						<h2 className='text-2xl'>
 							Total spend
 						</h2>

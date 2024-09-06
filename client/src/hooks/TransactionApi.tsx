@@ -60,10 +60,10 @@ export const useCreateTransaction = () => {
 
 		onSuccess: () => {
 			queryClient.invalidateQueries({
-				queryKey: [
-					"transactions",
-					"categoryStatistics",
-				],
+				queryKey: ["transactions"],
+			});
+			queryClient.invalidateQueries({
+				queryKey: ["categoryStatistics"],
 			});
 			toast.success("Transaction added successfully");
 		},
@@ -90,7 +90,11 @@ export interface TransactionType {
 }
 
 export const useGetTransaction = (transactionId: string) => {
-	const { data: transaction, isLoading } = useQuery<TransactionType>({
+	const {
+		data: transaction,
+		isLoading,
+		isError,
+	} = useQuery<TransactionType>({
 		queryKey: ["transaction", transactionId],
 		queryFn: async () => {
 			try {
@@ -126,7 +130,7 @@ export const useGetTransaction = (transactionId: string) => {
 		},
 	});
 
-	return { transaction, isLoading };
+	return { transaction, isLoading, isError };
 };
 
 interface Transaction {
@@ -240,4 +244,55 @@ export const useCategoryStatistics = () => {
 	});
 
 	return { statistics, isLoading, isError };
+};
+
+export const useDeleteTransaction = () => {
+	const queryClient = useQueryClient();
+
+	const { mutate: deleteTransaction, isPending } = useMutation({
+		mutationFn: async (transactionId: string) => {
+			try {
+				const response = await fetch(
+					`${API_BASE_URL}/api/transaction/${transactionId}`,
+					{
+						method: "DELETE",
+						credentials: "include",
+						headers: {
+							"Content-Type":
+								"application/json",
+						},
+					},
+				);
+
+				const data = await response.json();
+
+				if (!response.ok) {
+					throw new Error(
+						data.error ||
+							"Failed to delete transaction",
+					);
+				}
+			} catch (error) {
+				console.error(
+					"Delete transaction failed:",
+					error,
+				);
+				throw error;
+			}
+		},
+		onSuccess: () => {
+			queryClient.invalidateQueries({
+				queryKey: ["transactions"],
+			});
+			queryClient.invalidateQueries({
+				queryKey: ["categoryStatistics"],
+			});
+			toast.success("Transaction deleted successfully");
+		},
+		onError: (error) => {
+			console.error("Transaction deletion failed:", error);
+			toast.error("Failed to delete transaction");
+		},
+	});
+	return { deleteTransaction, isPending };
 };

@@ -50,6 +50,8 @@ export const deleteTransaction = async (req: Request, res: Response) => {
 	try {
 		const transactionId = req.params.id;
 
+		console.log("Transaction ID:", transactionId);
+
 		const transaction = await Transaction.findByIdAndDelete(
 			transactionId,
 		);
@@ -68,6 +70,7 @@ export const deleteTransaction = async (req: Request, res: Response) => {
 };
 
 interface TransactionType extends Document {
+	_id: string;
 	createdAt: Date;
 	updatedAt: Date;
 	userId: ObjectId;
