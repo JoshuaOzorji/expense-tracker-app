@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
-
+import { TransactionType } from "../../../shared/types";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 interface TransactionData {
@@ -76,18 +76,69 @@ export const useCreateTransaction = () => {
 	return { createTransaction, isPending, isError, error };
 };
 
-export interface TransactionType {
-	createdAt: Date;
-	updatedAt: Date;
-	userId: string;
-	date: Date;
-	description: string;
-	paymentType: "cash" | "card" | "transfer";
-	category: "investments" | "savings" | "essentials" | "discretionary";
-	amount: number;
-	location?: string;
-	formattedDate?: string;
-}
+export const useUpdateTransaction = () => {
+	const queryClient = useQueryClient();
+
+	const {
+		mutate: updateTransaction,
+		isPending,
+		isError,
+	} = useMutation({
+		mutationFn: async (transactionData: {
+			id: string;
+			data: TransactionData;
+		}) => {
+			try {
+				const bodyData = {
+					...transactionData.data,
+					date: transactionData.data.date.toISOString(),
+				};
+
+				const response = await fetch(
+					`${API_BASE_URL}/api/transaction/${transactionData.id}`,
+					{
+						method: "PUT",
+						credentials: "include",
+						headers: {
+							"Content-Type":
+								"application/json",
+						},
+						body: JSON.stringify(bodyData),
+					},
+				);
+				const data = await response.json();
+
+				if (!response.ok) {
+					throw new Error(
+						data.error ||
+							"Failed to update transaction",
+					);
+				}
+				return data;
+			} catch (error) {
+				console.error(
+					"Update transaction failed:",
+					error,
+				);
+				throw error;
+			}
+		},
+		onSuccess: () => {
+			queryClient.invalidateQueries({
+				queryKey: ["transactions"],
+			});
+			queryClient.invalidateQueries({
+				queryKey: ["categoryStatistics"],
+			});
+			toast.success("Transaction updated successfully");
+		},
+		onError: (error) => {
+			console.error("Transaction update failed:", error);
+			toast.error("Failed to update transaction");
+		},
+	});
+	return { updateTransaction, isPending, isError };
+};
 
 export const useGetTransaction = (transactionId: string) => {
 	const {

@@ -3,6 +3,7 @@ import handleServerError from "../utils/errorHandler";
 import Transaction from "../models/transaction.model";
 import { Document, ObjectId, SortOrder } from "mongoose";
 import { formatDate } from "../utils/formatDate";
+import { TransactionType } from "../../shared/types";
 
 export const createTransaction = async (req: Request, res: Response) => {
 	try {
@@ -69,28 +70,12 @@ export const deleteTransaction = async (req: Request, res: Response) => {
 	}
 };
 
-interface TransactionType extends Document {
-	_id: string;
-	createdAt: Date;
-	updatedAt: Date;
-	userId: ObjectId;
-	date: Date;
-	description: string;
-	paymentType: "cash" | "card" | "transfer";
-	category: "investments" | "savings" | "essentials" | "discretionary";
-	amount: number;
-	location?: string;
-	formattedDate?: string;
-}
-
 export const getTransaction = async (req: Request, res: Response) => {
 	try {
 		// const { id } = req.params;
 		const transactionId = req.params.id;
 
-		const transaction = (await Transaction.findById(
-			transactionId,
-		)) as TransactionType;
+		const transaction = await Transaction.findById(transactionId);
 
 		if (!transaction) {
 			return res
@@ -100,10 +85,20 @@ export const getTransaction = async (req: Request, res: Response) => {
 
 		const formattedDate = formatDate(new Date(transaction.date));
 
-		res.status(200).json({
-			...transaction.toObject(),
-			formattedDate,
-		});
+		const transactionData: TransactionType = {
+			_id: transaction._id.toString(),
+			createdAt: transaction.createdAt,
+			updatedAt: transaction.updatedAt,
+			userId: transaction.userId.toString(),
+			description: transaction.description,
+			paymentType: transaction.paymentType,
+			date: transaction.date,
+			category: transaction.category,
+			amount: transaction.amount,
+			location: transaction.location ?? undefined,
+			formattedDate: formatDate(transaction.date),
+		};
+		res.status(200).json(transactionData);
 	} catch (error: any) {
 		handleServerError(res, error, "getTransaction");
 	}

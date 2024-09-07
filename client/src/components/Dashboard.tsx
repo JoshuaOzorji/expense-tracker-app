@@ -1,4 +1,4 @@
-import { Chart as ChartJS, ArcElement, Tooltip } from "chart.js";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 import AddTransaction from "./TransactionForm";
 import GreetingCard from "./GreetingCard";
@@ -6,7 +6,7 @@ import { useCategoryStatistics } from "@/hooks/TransactionApi";
 import { useMemo } from "react";
 import LoadingSpinner from "./LoadingSpinner";
 
-ChartJS.register(ArcElement, Tooltip);
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 const Dashboard = () => {
 	const { statistics, isLoading, isError } = useCategoryStatistics();
@@ -45,6 +45,19 @@ const Dashboard = () => {
 		return null;
 	}, [statistics]);
 
+	const options = {
+		plugins: {
+			legend: {
+				display: true,
+				position: "bottom" as const,
+				labels: {
+					boxWidth: 12,
+					padding: 20,
+				},
+			},
+		},
+	};
+
 	if (isLoading) {
 		return (
 			<div className='flex items-center justify-center h-screen'>
@@ -81,6 +94,9 @@ const Dashboard = () => {
 						{chartData ? (
 							<Doughnut
 								data={chartData}
+								options={
+									options
+								}
 							/>
 						) : (
 							<div>

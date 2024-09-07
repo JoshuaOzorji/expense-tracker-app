@@ -20,7 +20,7 @@ const Card = ({ transactionId }: CardProps) => {
 
 	return (
 		<section className='flex justify-between border rounded-md md:p-3 border-sec hover:shadow-md animate p-2'>
-			<div className='flex flex-col  text-left'>
+			<div className='flex flex-col justify-between'>
 				<span className='font-bold md:text-base capitalize'>
 					{transaction?.description}
 				</span>
@@ -30,7 +30,7 @@ const Card = ({ transactionId }: CardProps) => {
 			</div>
 
 			<section className='flex text-right gap-4 md:gap-5 items-center'>
-				<div className='flex flex-col'>
+				<div className='flex flex-col justify-between'>
 					<span className='font-bold md:text-xl'>
 						₦{transaction?.amount}
 					</span>
