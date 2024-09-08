@@ -1,6 +1,6 @@
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
-import AddTransaction from "./TransactionForm";
+import TransactionForm from "./TransactionForm";
 import GreetingCard from "./GreetingCard";
 import { useCategoryStatistics } from "@/hooks/TransactionApi";
 import { useMemo } from "react";
@@ -84,7 +84,7 @@ const Dashboard = () => {
 				<p className='p-2'>
 					<GreetingCard />
 				</p>
-				<AddTransaction />
+				<TransactionForm />
 			</div>
 
 			<div className='flex flex-col items-center max-h-screen gap-4 md:flex-row shadow-accent'>

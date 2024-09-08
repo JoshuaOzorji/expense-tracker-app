@@ -8,12 +8,44 @@ import {
 	DialogTrigger,
 } from "@/components/ui/dialog";
 import { DateInputField, InputField, SelectField } from "./InputFields";
-import { useCreateTransaction } from "@/hooks/TransactionApi";
-import { ChangeEvent, FormEvent, useState } from "react";
+import {
+	useCreateTransaction,
+	useUpdateTransaction,
+} from "@/hooks/TransactionApi";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 
-const TransactionForm = () => {
-	const { createTransaction, isPending, isError, error } =
-		useCreateTransaction();
+interface TransactionFormProps {
+	initialData?: {
+		id: string;
+		description: string;
+		paymentType: string;
+		category: string;
+		amount: number;
+		location: string;
+		date: Date;
+	};
+	isUpdate?: boolean;
+	onClose?: () => void;
+}
+
+const TransactionForm = ({
+	initialData,
+	isUpdate = false,
+	onClose,
+}: TransactionFormProps) => {
+	const {
+		createTransaction,
+		isPending: createPending,
+		isError: createError,
+		error: createErrorObj,
+	} = useCreateTransaction();
+
+	const {
+		updateTransaction,
+		isPending: updatePending,
+		isError: updateError,
+		error: updateErrorObj,
+	} = useUpdateTransaction();
 
 	const [formData, setFormData] = useState({
 		paymentType: "",
@@ -24,18 +56,11 @@ const TransactionForm = () => {
 		description: "",
 	});
 
-	const handleAmountChange = (e: ChangeEvent<HTMLInputElement>) => {
-		const { value } = e.target;
-
-		const cleanedValue = value.replace(/,/g, "");
-
-		const numericValue = parseFloat(cleanedValue) || 0;
-
-		setFormData((prevData) => ({
-			...prevData,
-			amount: numericValue,
-		}));
-	};
+	useEffect(() => {
+		if (initialData) {
+			setFormData(initialData);
+		}
+	}, [initialData]);
 
 	const handleInputChange = (
 		e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
@@ -44,6 +69,15 @@ const TransactionForm = () => {
 		setFormData((prevData) => ({
 			...prevData,
 			[name]: value,
+		}));
+	};
+
+	const handleAmountChange = (e: ChangeEvent<HTMLInputElement>) => {
+		const numericValue =
+			parseFloat(e.target.value.replace(/,/g, "")) || 0;
+		setFormData((prevData) => ({
+			...prevData,
+			amount: numericValue,
 		}));
 	};
 
@@ -57,10 +91,21 @@ const TransactionForm = () => {
 	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
-		const transactionData = {
-			...formData,
-		};
-		createTransaction(transactionData);
+		// const transactionData = {
+		// 	...formData,
+		// };
+		// createTransaction(transactionData);
+
+		if (isUpdate && initialData) {
+			updateTransaction({
+				id: initialData.id,
+				data: formData,
+			});
+		} else {
+			createTransaction(formData);
+		}
+
+		if (onClose) onClose();
 	};
 
 	return (
@@ -73,7 +118,9 @@ const TransactionForm = () => {
 			<DialogContent>
 				<DialogHeader>
 					<DialogTitle>
-						Add transaction
+						{isUpdate
+							? "Update Transaction"
+							: "Add Transaction"}
 					</DialogTitle>
 				</DialogHeader>
 				<form
@@ -86,9 +133,9 @@ const TransactionForm = () => {
 								id='paymentType'
 								name='paymentType'
 								options={[
+									"transfer",
 									"cash",
 									"card",
-									"transfer",
 								]}
 								onChange={
 									handleInputChange
@@ -174,9 +221,12 @@ const TransactionForm = () => {
 						value={formData.description}
 					/>
 
-					{isError && error && (
+					{(createError || updateError) && (
 						<p className='text-sm font-light text-center text-red-600 rounded-md'>
-							{error.message}
+							{(createError &&
+								createErrorObj?.message) ||
+								(updateError &&
+									updateErrorObj?.message)}
 						</p>
 					)}
 
@@ -185,7 +235,11 @@ const TransactionForm = () => {
 							type='submit'
 							className='buttonSm'>
 							<p>
-								{isPending
+								{isUpdate
+									? updatePending
+										? "Updating..."
+										: "Update Transaction"
+									: createPending
 									? "Loading..."
 									: "Add Transaction"}
 							</p>

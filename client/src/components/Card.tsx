@@ -1,6 +1,9 @@
 import { useGetTransaction } from "@/hooks/TransactionApi";
 import { CiEdit } from "react-icons/ci";
 import DeleteButton from "./DeleteButton";
+import { useState } from "react";
+import TransactionForm from "./TransactionForm";
+import { Dialog, DialogTrigger } from "./ui/dialog";
 
 interface CardProps {
 	transactionId: string;
@@ -9,6 +12,7 @@ interface CardProps {
 const Card = ({ transactionId }: CardProps) => {
 	const { transaction, isLoading, isError } =
 		useGetTransaction(transactionId);
+	const [isEditOpen, setIsEditOpen] = useState(false);
 
 	if (isLoading) {
 		return <div>Loading...</div>;
@@ -40,7 +44,7 @@ const Card = ({ transactionId }: CardProps) => {
 				</div>
 
 				<div className='flex flex-col gap-1'>
-					<button className='hover:underline animate hover:bg-accent rounded-full p-1'>
+					<button className='hover:bg-accent rounded-full p-1'>
 						<CiEdit />
 					</button>
 

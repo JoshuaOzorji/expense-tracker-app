@@ -83,6 +83,7 @@ export const useUpdateTransaction = () => {
 		mutate: updateTransaction,
 		isPending,
 		isError,
+		error,
 	} = useMutation({
 		mutationFn: async (transactionData: {
 			id: string;
@@ -137,7 +138,7 @@ export const useUpdateTransaction = () => {
 			toast.error("Failed to update transaction");
 		},
 	});
-	return { updateTransaction, isPending, isError };
+	return { updateTransaction, isPending, isError, error };
 };
 
 export const useGetTransaction = (transactionId: string) => {
