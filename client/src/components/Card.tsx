@@ -3,7 +3,7 @@ import { CiEdit } from "react-icons/ci";
 import DeleteButton from "./DeleteButton";
 import { useState } from "react";
 import TransactionForm from "./TransactionForm";
-import { Dialog, DialogTrigger } from "./ui/dialog";
+import LoadingSpinner from "./LoadingSpinner";
 
 interface CardProps {
 	transactionId: string;
@@ -12,14 +12,23 @@ interface CardProps {
 const Card = ({ transactionId }: CardProps) => {
 	const { transaction, isLoading, isError } =
 		useGetTransaction(transactionId);
+
 	const [isEditOpen, setIsEditOpen] = useState(false);
 
 	if (isLoading) {
-		return <div>Loading...</div>;
+		return (
+			<div className='flex items-center justify-center h-fit'>
+				<LoadingSpinner size='sm' />
+			</div>
+		);
 	}
 
 	if (isError || !transaction) {
-		return <div>Error fetching transaction</div>;
+		return (
+			<div className='flex items-center justify-center h-fit text-center'>
+				Error loading data
+			</div>
+		);
 	}
 
 	return (
@@ -44,9 +53,40 @@ const Card = ({ transactionId }: CardProps) => {
 				</div>
 
 				<div className='flex flex-col gap-1'>
-					<button className='hover:bg-accent rounded-full p-1'>
+					<button
+						className='hover:bg-accent p-1 rounded-full'
+						onClick={() =>
+							setIsEditOpen(true)
+						}>
 						<CiEdit />
 					</button>
+
+					{isEditOpen && (
+						<TransactionForm
+							initialData={{
+								id: transaction._id,
+								description:
+									transaction.description,
+								paymentType:
+									transaction.paymentType,
+								category: transaction.category,
+								amount: transaction.amount,
+								location:
+									transaction.location ||
+									"",
+								date: new Date(
+									transaction.date,
+								),
+							}}
+							isUpdate={true}
+							onClose={() =>
+								setIsEditOpen(
+									false,
+								)
+							}
+							isOpen={isEditOpen}
+						/>
+					)}
 
 					{transaction._id && (
 						<DeleteButton

@@ -102,6 +102,8 @@ export const DateInputField = ({
 	value,
 	placeholder = "Select date",
 }: DateInputFieldProps) => {
+	const today = new Date().toISOString().split("T")[0];
+
 	return (
 		<label htmlFor={name}>
 			{label}
@@ -113,6 +115,7 @@ export const DateInputField = ({
 					placeholder={placeholder}
 					onChange={onChange}
 					value={value}
+					max={today}
 					className='flex-grow outline-none bg-accent font-extralight'
 				/>
 			</div>

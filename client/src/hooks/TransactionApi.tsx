@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import toast from "react-hot-toast";
 import { TransactionType } from "../../../shared/types";
+import toast from "react-hot-toast";
+
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 interface TransactionData {

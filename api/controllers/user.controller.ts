@@ -19,7 +19,9 @@ export const updateUser = async (req: Request, res: Response) => {
 		let user = await User.findById(userId);
 
 		if (!user) {
-			return res.status(404).json({ message: "User not found" });
+			return res
+				.status(404)
+				.json({ message: "User not found" });
 		}
 
 		// Check if the updated username already exists
@@ -28,7 +30,9 @@ export const updateUser = async (req: Request, res: Response) => {
 				username,
 			});
 			if (existingUser) {
-				return res.status(400).json({ error: "Username already exists" });
+				return res.status(400).json({
+					error: "Username already exists",
+				});
 			}
 		}
 
@@ -37,23 +41,27 @@ export const updateUser = async (req: Request, res: Response) => {
 			(!newPassword && currentPassword) ||
 			(!currentPassword && newPassword)
 		) {
-			return res
-				.status(400)
-				.json({ error: "Please provide new password and current password" });
+			return res.status(400).json({
+				error: "Please provide new password and current password",
+			});
 		}
 
-		// Check if current password is correct
 		if (currentPassword && newPassword) {
-			const isMatch = await bcrypt.compare(currentPassword, user.password);
+			const isMatch = await bcrypt.compare(
+				currentPassword,
+				user.password,
+			);
 
 			if (!isMatch) {
-				return res.status(400).json({ error: "Current password is incorrect" });
+				return res.status(400).json({
+					error: "Current password is incorrect",
+				});
 			}
 
 			if (newPassword.length < 6) {
-				return res
-					.status(400)
-					.json({ error: "Password must be at least 6 characters long" });
+				return res.status(400).json({
+					error: "Password must be at least 6 characters long",
+				});
 			}
 
 			//TODO: profile image update
@@ -68,7 +76,6 @@ export const updateUser = async (req: Request, res: Response) => {
 
 		user = await user.save();
 
-		// Ensure the password is not included in the response (set it to null)
 		(user as any).password = null;
 
 		return res.status(200).json(user);
