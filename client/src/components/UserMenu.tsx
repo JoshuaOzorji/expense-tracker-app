@@ -6,9 +6,10 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Button } from "./ui/button";
 import userImg from "/mrjosh.png";
 import { useAuthUser, useLogout } from "@/hooks/AuthApi";
+import UserProfile from "./UserProfile";
+import { Button } from "./ui/button";
 
 const UserMenu = () => {
 	const { logout } = useLogout();
@@ -25,17 +26,23 @@ const UserMenu = () => {
 					/>
 				</DropdownMenuTrigger>
 				<DropdownMenuContent className='mr-3 md:mr-4'>
-					<DropdownMenuLabel>Hi, {authUser?.firstName}</DropdownMenuLabel>
+					<DropdownMenuLabel>
+						Hi, {authUser?.firstName}
+					</DropdownMenuLabel>
 					<DropdownMenuSeparator />
 					<DropdownMenuItem>
-						<button className='p-1 rounded-md hover:bg-accent'>
-							Update Profile
+						<button
+							className='p-1 rounded-md hover:bg-accent w-full justify-start'
+							onClick={(e) => {
+								e.stopPropagation();
+							}}>
+							<UserProfile />
 						</button>
 					</DropdownMenuItem>
 					<DropdownMenuItem>
 						<Button
 							size='sm'
-							className='w-full rounded-none bg-pry hover:bg-sec hover:text-pry'
+							className='w-full rounded-none bg-pry hover:bg-accent hover:text-pry text-left'
 							onClick={(e) => {
 								e.preventDefault();
 								logout();

@@ -7,10 +7,10 @@ export const updateUser = async (req: Request, res: Response) => {
 	const {
 		firstName,
 		lastName,
-		profileImg,
 		username,
 		currentPassword,
 		newPassword,
+		profileImg,
 	} = req.body;
 
 	const userId = req.user._id;
@@ -43,6 +43,12 @@ export const updateUser = async (req: Request, res: Response) => {
 		) {
 			return res.status(400).json({
 				error: "Please provide new password and current password",
+			});
+		}
+
+		if (currentPassword && !newPassword) {
+			return res.status(400).json({
+				error: "Please provide both current and new passwords if updating the password",
 			});
 		}
 

@@ -32,24 +32,33 @@ export const useSignUp = () => {
 			gender,
 		}: SignUpType) => {
 			try {
-				const response = await fetch(`${API_BASE_URL}/api/auth/signup`, {
-					method: "POST",
-					headers: { "Content-Type": "application/json" },
-					body: JSON.stringify({
-						username,
-						firstName,
-						lastName,
-						password,
-						confirmPassword,
-						email,
-						gender,
-					}),
-					credentials: "include",
-				});
+				const response = await fetch(
+					`${API_BASE_URL}/api/auth/signup`,
+					{
+						method: "POST",
+						headers: {
+							"Content-Type":
+								"application/json",
+						},
+						body: JSON.stringify({
+							username,
+							firstName,
+							lastName,
+							password,
+							confirmPassword,
+							email,
+							gender,
+						}),
+						credentials: "include",
+					},
+				);
 
 				const data = await response.json();
 				if (!response.ok)
-					throw new Error(data.error || "Failed to create account");
+					throw new Error(
+						data.error ||
+							"Failed to create account",
+					);
 			} catch (error) {
 				console.error(error);
 				throw error;
@@ -57,7 +66,9 @@ export const useSignUp = () => {
 		},
 		onSuccess: () => {
 			toast.success("Account created successfully");
-			queryClient.invalidateQueries({ queryKey: ["authUser"] });
+			queryClient.invalidateQueries({
+				queryKey: ["authUser"],
+			});
 		},
 	});
 	return { signUp, isError, isPending, error };
@@ -68,13 +79,19 @@ export const useAuthUser = () => {
 		queryKey: ["authUser"],
 		queryFn: async () => {
 			try {
-				const response = await fetch(`${API_BASE_URL}/api/auth/me`, {
-					credentials: "include",
-				});
+				const response = await fetch(
+					`${API_BASE_URL}/api/auth/me`,
+					{
+						credentials: "include",
+					},
+				);
 				const data = await response.json();
 				if (data.error) return null;
 				if (!response.ok) {
-					throw new Error(data.error || "Something went wrong");
+					throw new Error(
+						data.error ||
+							"Something went wrong",
+					);
 				}
 				return data;
 			} catch (error) {
@@ -97,18 +114,29 @@ export const useLogin = () => {
 		isError,
 		error,
 	} = useMutation({
-		mutationFn: async (loginData: { identifier: string; password: string }) => {
+		mutationFn: async (loginData: {
+			identifier: string;
+			password: string;
+		}) => {
 			try {
-				const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
-					method: "POST",
-					headers: { "Content-Type": "application/json" },
-					body: JSON.stringify(loginData),
-					credentials: "include",
-				});
+				const response = await fetch(
+					`${API_BASE_URL}/api/auth/login`,
+					{
+						method: "POST",
+						headers: {
+							"Content-Type":
+								"application/json",
+						},
+						body: JSON.stringify(loginData),
+						credentials: "include",
+					},
+				);
 
 				const data = await response.json();
 				if (!response.ok) {
-					throw new Error(data.message || "Login failed");
+					throw new Error(
+						data.message || "Login failed",
+					);
 				}
 
 				return data;
@@ -134,14 +162,20 @@ export const useLogout = () => {
 	const { mutate: logout } = useMutation({
 		mutationFn: async () => {
 			try {
-				const response = await fetch(`${API_BASE_URL}/api/auth/logout`, {
-					method: "POST",
-					credentials: "include",
-				});
+				const response = await fetch(
+					`${API_BASE_URL}/api/auth/logout`,
+					{
+						method: "POST",
+						credentials: "include",
+					},
+				);
 				const data = await response.json();
 
 				if (!response.ok) {
-					throw new Error(data.error || "Unable to logout");
+					throw new Error(
+						data.error ||
+							"Unable to logout",
+					);
 				}
 			} catch (error) {
 				console.error(error);
@@ -149,7 +183,9 @@ export const useLogout = () => {
 			}
 		},
 		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ["authUser"] });
+			queryClient.invalidateQueries({
+				queryKey: ["authUser"],
+			});
 		},
 		onError: (error) => {
 			console.error("Logout failed:", error);
