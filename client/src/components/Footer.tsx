@@ -11,7 +11,9 @@ const Footer = () => {
 				</Link>
 
 				<div className='text-[0.6rem] md:text-xs flex gap-2 text-neutral-600  font-light'>
-					<button className='hover:text-pry'>Privacy Policy</button>
+					<button className='hover:text-pry'>
+						Privacy Policy
+					</button>
 					<button className='md:decoration-2 hover:text-pry animate'>
 						Terms of Service
 					</button>

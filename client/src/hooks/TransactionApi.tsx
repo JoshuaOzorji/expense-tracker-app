@@ -125,12 +125,16 @@ export const useUpdateTransaction = () => {
 				throw error;
 			}
 		},
-		onSuccess: () => {
+		onSuccess: (data) => {
 			queryClient.invalidateQueries({
 				queryKey: ["transactions"],
 			});
 			queryClient.invalidateQueries({
 				queryKey: ["categoryStatistics"],
+			});
+
+			queryClient.invalidateQueries({
+				queryKey: ["transaction", data._id],
 			});
 			toast.success("Transaction updated successfully");
 		},
@@ -147,6 +151,7 @@ export const useGetTransaction = (transactionId: string) => {
 		data: transaction,
 		isLoading,
 		isError,
+		refetch,
 	} = useQuery<TransactionType>({
 		queryKey: ["transaction", transactionId],
 		queryFn: async () => {
@@ -183,7 +188,7 @@ export const useGetTransaction = (transactionId: string) => {
 		},
 	});
 
-	return { transaction, isLoading, isError };
+	return { transaction, isLoading, isError, refetch };
 };
 
 interface Transaction {
@@ -235,7 +240,6 @@ export const useGetTransactions = ({
 		}
 	};
 
-	// Pass the queryKey and queryFn as part of an options object
 	const { data: transactions, isLoading } = useQuery<
 		Transaction[],
 		Error

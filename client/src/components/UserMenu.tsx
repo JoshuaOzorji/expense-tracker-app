@@ -16,43 +16,41 @@ const UserMenu = () => {
 	const { authUser } = useAuthUser();
 
 	return (
-		<div>
-			<DropdownMenu>
-				<DropdownMenuTrigger className='outline-none'>
-					<img
-						src={userImg}
-						alt='logo'
-						className='object-cover w-8 h-8 rounded-full'
-					/>
-				</DropdownMenuTrigger>
-				<DropdownMenuContent className='mr-3 md:mr-4'>
-					<DropdownMenuLabel>
-						Hi, {authUser?.firstName}
-					</DropdownMenuLabel>
-					<DropdownMenuSeparator />
-					<DropdownMenuItem>
-						<button
-							className='p-1 rounded-md hover:bg-accent w-full justify-start'
-							onClick={(e) => {
-								e.stopPropagation();
-							}}>
-							<UserProfile />
-						</button>
-					</DropdownMenuItem>
-					<DropdownMenuItem>
-						<Button
-							size='sm'
-							className='w-full rounded-none bg-pry hover:bg-accent hover:text-pry text-left'
-							onClick={(e) => {
-								e.preventDefault();
-								logout();
-							}}>
-							Logout
-						</Button>
-					</DropdownMenuItem>
-				</DropdownMenuContent>
-			</DropdownMenu>
-		</div>
+		<DropdownMenu>
+			<DropdownMenuTrigger className='outline-none'>
+				<img
+					src={userImg}
+					alt='logo'
+					className='object-cover w-8 h-8 rounded-full'
+				/>
+			</DropdownMenuTrigger>
+			<DropdownMenuContent className='mr-3 md:mr-4'>
+				<DropdownMenuLabel>
+					Hi, {authUser?.firstName}
+				</DropdownMenuLabel>
+				<DropdownMenuSeparator />
+				<DropdownMenuItem className='hover:bg-none focus:bg-none'>
+					<button
+						className='justify-start w-full p-1 hover:bg-accent'
+						onClick={(e) => {
+							e.stopPropagation();
+						}}>
+						<UserProfile />
+					</button>
+				</DropdownMenuItem>
+				<DropdownMenuItem className='hover:bg-none focus:bg-none'>
+					<Button
+						size='sm'
+						className='w-full text-left rounded-none bg-pry hover:text-pry hover:bg-accent'
+						onClick={(e) => {
+							e.preventDefault();
+							logout();
+						}}>
+						Logout
+					</Button>
+				</DropdownMenuItem>
+			</DropdownMenuContent>
+		</DropdownMenu>
 	);
 };
 

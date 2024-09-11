@@ -3,13 +3,24 @@ import { Doughnut } from "react-chartjs-2";
 import TransactionForm from "./TransactionForm";
 import GreetingCard from "./GreetingCard";
 import { useCategoryStatistics } from "@/hooks/TransactionApi";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import LoadingSpinner from "./LoadingSpinner";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const Dashboard = () => {
 	const { statistics, isLoading, isError } = useCategoryStatistics();
+
+	const [isMobile, setIsMobile] = useState(false);
+
+	useEffect(() => {
+		const handleResize = () => {
+			setIsMobile(window.innerWidth < 768);
+		};
+		handleResize();
+		window.addEventListener("resize", handleResize);
+		return () => window.removeEventListener("resize", handleResize);
+	}, []);
 
 	const chartData = useMemo(() => {
 		if (statistics) {
@@ -46,9 +57,10 @@ const Dashboard = () => {
 	}, [statistics]);
 
 	const options = {
+		responsive: true,
 		plugins: {
 			legend: {
-				display: true,
+				display: !isMobile,
 				position: "bottom" as const,
 				labels: {
 					boxWidth: 12,
@@ -145,7 +157,7 @@ const Dashboard = () => {
 						</div>
 					))}
 
-					<div className='flex items-center justify-between my-1 font-bold text-black px-2'>
+					<div className='flex items-center justify-between px-2 my-1 font-bold text-black'>
 						<h2 className='text-2xl'>
 							Total spend
 						</h2>

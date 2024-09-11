@@ -26,6 +26,7 @@ interface TransactionFormProps {
 	isUpdate?: boolean;
 	onClose?: () => void;
 	isOpen?: boolean;
+	onSuccess?: () => void;
 }
 
 const TransactionForm = ({

@@ -4,10 +4,14 @@ import UserMenu from "./UserMenu";
 
 const Header = () => {
 	return (
-		<main className='border-b px-2 md:px-6 bg-white'>
-			<div className='flex justify-between items-center mx-auto p-2 md:p-3 font-dmSans'>
+		<main className='px-2 bg-white border-b md:px-6'>
+			<div className='flex items-center justify-between p-2 mx-auto md:p-3 font-dmSans '>
 				<Link to='/'>
-					<img src={logo} alt='logo' className='object-contain' />
+					<img
+						src={logo}
+						alt='logo'
+						className='object-contain'
+					/>
 				</Link>
 
 				<div>

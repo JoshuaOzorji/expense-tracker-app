@@ -7,12 +7,22 @@ import { useState } from "react";
 
 const Activity = () => {
 	const [sortField, setSortField] = useState<string | undefined>();
-	const { transactions, isLoading } = useGetTransactions({ sortField });
+	const { transactions, isLoading, isError } = useGetTransactions({
+		sortField,
+	});
 
 	if (isLoading) {
 		return (
 			<div className='flex items-center justify-center h-screen'>
 				<LoadingSpinner size='lg' />
+			</div>
+		);
+	}
+
+	if (isError) {
+		return (
+			<div className='flex items-center justify-center h-screen text-center'>
+				Error loading data
 			</div>
 		);
 	}
