@@ -1,11 +1,3 @@
-import {
-	Select,
-	SelectContent,
-	SelectGroup,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from "@/components/ui/select";
 import { useState } from "react";
 
 interface SortMenuProps {
@@ -15,30 +7,28 @@ interface SortMenuProps {
 const SortMenu = ({ onSortFieldChange }: SortMenuProps) => {
 	const [selectedValue, setSelectedValue] = useState("");
 
-	const handleValueChange = (value: string) => {
+	const handleValueChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+		const value = e.target.value;
 		setSelectedValue(value);
 		onSortFieldChange(value);
 	};
 
 	return (
-		<Select value={selectedValue} onValueChange={handleValueChange}>
-			<SelectTrigger className='w-full outline-none gap-x-1'>
-				<SelectValue placeholder='Sort by' />
-			</SelectTrigger>
-			<SelectContent>
-				<SelectGroup>
-					<SelectItem value='category'>
-						Category
-					</SelectItem>
-					<SelectItem value='amount'>
-						Amount
-					</SelectItem>
-					<SelectItem value='paymentType'>
-						Payment Type
-					</SelectItem>
-				</SelectGroup>
-			</SelectContent>
-		</Select>
+		<div className='flex items-center border px-0.5 rounded-md'>
+			<select
+				value={selectedValue}
+				onChange={handleValueChange}
+				className='focus:outline-none'>
+				<option value='' disabled>
+					Sort by
+				</option>
+				<option value='category'>Category</option>
+				<option value='amount'>Amount</option>
+				<option value='paymentType'>
+					Payment Type
+				</option>
+			</select>
+		</div>
 	);
 };
 

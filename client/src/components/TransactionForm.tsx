@@ -101,7 +101,18 @@ const TransactionForm = ({
 				data: formData,
 			});
 		} else {
-			createTransaction(formData);
+			createTransaction(formData, {
+				onSuccess: () => {
+					setFormData({
+						paymentType: "",
+						category: "",
+						amount: 0,
+						location: "",
+						date: new Date(),
+						description: "",
+					});
+				},
+			});
 		}
 
 		if (onClose) onClose();

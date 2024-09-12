@@ -15,7 +15,10 @@ const userSchema = new mongoose.Schema(
 
 		password: { type: String, required: true, minLength: 6 },
 
-		profileImg: { type: String, default: "" },
+		profileImg: {
+			type: String,
+			default: "",
+		},
 
 		gender: {
 			type: String,
@@ -43,6 +46,13 @@ const userSchema = new mongoose.Schema(
 	},
 	{ timestamps: true },
 );
+
+userSchema.pre("save", function (next) {
+	if (!this.profileImg) {
+		this.profileImg = `https://ui-avatars.com/api/?name=${this.firstName}+${this.lastName}&background=random&size=128&bold=true`;
+	}
+	next();
+});
 
 const User = mongoose.model("User", userSchema);
 

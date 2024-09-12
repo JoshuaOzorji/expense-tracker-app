@@ -6,7 +6,6 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import userImg from "/mrjosh.png";
 import { useAuthUser, useLogout } from "@/hooks/AuthApi";
 import UserProfile from "./UserProfile";
 import { Button } from "./ui/button";
@@ -19,7 +18,7 @@ const UserMenu = () => {
 		<DropdownMenu>
 			<DropdownMenuTrigger className='outline-none'>
 				<img
-					src={userImg}
+					src={authUser?.profileImg}
 					alt='logo'
 					className='object-cover w-8 h-8 rounded-full'
 				/>

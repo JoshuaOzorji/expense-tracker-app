@@ -15,11 +15,13 @@ const UserProfile = () => {
 	const { authUser, isLoading } = useAuthUser();
 	const { updateUser, isPending, isError, error } = useUpdateUser();
 	const [open, setOpen] = useState(false);
+	const [selectedImage, setSelectedImage] = useState<File | null>(null);
 
 	const [formData, setFormData] = useState({
 		firstName: "",
 		lastName: "",
 		username: "",
+		profileImg: "",
 		currentPassword: "",
 		newPassword: "",
 	});
@@ -32,6 +34,7 @@ const UserProfile = () => {
 				username: authUser.username || "",
 				currentPassword: "",
 				newPassword: "",
+				profileImg: authUser.profileImg || "",
 			});
 		}
 	}, [authUser]);

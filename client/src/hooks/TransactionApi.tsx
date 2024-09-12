@@ -240,15 +240,16 @@ export const useGetTransactions = ({
 		}
 	};
 
-	const { data: transactions, isLoading } = useQuery<
-		Transaction[],
-		Error
-	>({
+	const {
+		data: transactions,
+		isLoading,
+		isError,
+	} = useQuery<Transaction[], Error>({
 		queryKey: ["transactions", { sortField }],
 		queryFn: fetchTransactions,
 	});
 
-	return { transactions, isLoading };
+	return { transactions, isLoading, isError };
 };
 
 export type CategoryStatistics = {
