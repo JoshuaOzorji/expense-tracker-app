@@ -6,7 +6,7 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 interface UserDataProps {
 	firstName?: string;
 	lastName?: string;
-	profileImg?: string;
+	profileImg?: File | string;
 	username?: string;
 	currentPassword?: string;
 	newPassword?: string;
@@ -22,16 +22,32 @@ export const useUpdateUser = () => {
 	} = useMutation({
 		mutationFn: async (userData: UserDataProps) => {
 			try {
+				const formData = new FormData();
+
+				Object.entries(userData).forEach(
+					([key, value]) => {
+						if (value instanceof File) {
+							formData.append(
+								key,
+								value,
+							);
+						} else if (
+							typeof value ===
+							"string"
+						) {
+							formData.append(
+								key,
+								value,
+							);
+						}
+					},
+				);
 				const response = await fetch(
 					`${API_BASE_URL}/api/user/update`,
 					{
 						method: "PATCH",
 						credentials: "include",
-						headers: {
-							"Content-Type":
-								"application/json",
-						},
-						body: JSON.stringify(userData),
+						body: formData,
 					},
 				);
 				const data = await response.json();

@@ -15,13 +15,12 @@ const UserProfile = () => {
 	const { authUser, isLoading } = useAuthUser();
 	const { updateUser, isPending, isError, error } = useUpdateUser();
 	const [open, setOpen] = useState(false);
-	const [selectedImage, setSelectedImage] = useState<File | null>(null);
 
 	const [formData, setFormData] = useState({
 		firstName: "",
 		lastName: "",
 		username: "",
-		profileImg: "",
+		profileImg: "" as File | string,
 		currentPassword: "",
 		newPassword: "",
 	});
@@ -48,9 +47,20 @@ const UserProfile = () => {
 		setFormData({ ...formData, [name]: value });
 	};
 
+	const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const file = e.target.files?.[0];
+		if (file) {
+			setFormData({ ...formData, profileImg: file });
+		}
+	};
+
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
-		updateUser(formData);
+		updateUser(formData, {
+			onSuccess: () => {
+				setOpen(false);
+			},
+		});
 	};
 
 	return (
@@ -100,21 +110,40 @@ const UserProfile = () => {
 						</span>
 					</div>
 
-					<span className='w-full'>
-						<InputField
-							label='Username'
-							id='username'
-							name='username'
-							type='text'
-							placeholder='Username'
-							onChange={
-								handleInputChange
-							}
-							value={
-								formData.username
-							}
-						/>
-					</span>
+					<div>
+						<span className='w-full'>
+							<InputField
+								label='Username'
+								id='username'
+								name='username'
+								type='text'
+								placeholder='Username'
+								onChange={
+									handleInputChange
+								}
+								value={
+									formData.username
+								}
+							/>
+						</span>
+
+						<span>
+							<label
+								htmlFor='profileImg'
+								className='block text-sm font-medium'>
+								Profile Image
+							</label>
+							<input
+								type='file'
+								id='profileImg'
+								name='profileImg'
+								accept='image/*'
+								onChange={
+									handleFileChange
+								}
+							/>
+						</span>
+					</div>
 
 					<div className='flex items-center justify-between gap-2'>
 						<span className='w-full'>

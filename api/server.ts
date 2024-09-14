@@ -12,6 +12,8 @@ import { v2 as cloudinary } from "cloudinary";
 dotenv.config();
 const app = express();
 
+// Multer configuration
+
 app.use(
 	cors({
 		origin: process.env.FRONTEND_URL || "",
