@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
 import handleServerError from "../utils/errorHandler";
 import Transaction from "../models/transaction.model";
-import { Document, ObjectId, SortOrder } from "mongoose";
+import { SortOrder } from "mongoose";
 import { formatDate } from "../utils/formatDate";
-import { TransactionType } from "../../shared/types";
+import { TransactionType } from "../types";
 
 export const createTransaction = async (req: Request, res: Response) => {
 	try {
