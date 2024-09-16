@@ -76,8 +76,8 @@ const UserProfile = () => {
 				</DialogHeader>
 				<form
 					onSubmit={handleSubmit}
-					className='grid gap-2 py-4'>
-					<div className='flex items-center justify-between gap-2'>
+					className='grid gap-2 py-2 md:py-4'>
+					<div className='flex flex-col items-center justify-between gap-2 md:flex-row'>
 						<span className='w-full'>
 							<InputField
 								label='First Name'
@@ -110,7 +110,7 @@ const UserProfile = () => {
 						</span>
 					</div>
 
-					<div>
+					<div className='flex flex-col items-center justify-between gap-2 md:flex-row'>
 						<span className='w-full'>
 							<InputField
 								label='Username'
@@ -127,25 +127,28 @@ const UserProfile = () => {
 							/>
 						</span>
 
-						<span>
+						<span className='w-full'>
 							<label
 								htmlFor='profileImg'
-								className='block text-sm font-medium'>
+								className='text-h4'>
 								Profile Image
+								<div className='label'>
+									<input
+										type='file'
+										id='profileImg'
+										name='profileImg'
+										accept='image/*'
+										onChange={
+											handleFileChange
+										}
+										className='outline-none bg-accent font-extralight capitalize flex-grow'
+									/>
+								</div>
 							</label>
-							<input
-								type='file'
-								id='profileImg'
-								name='profileImg'
-								accept='image/*'
-								onChange={
-									handleFileChange
-								}
-							/>
 						</span>
 					</div>
 
-					<div className='flex items-center justify-between gap-2'>
+					<div className='flex flex-col items-center justify-between gap-2 md:flex-row'>
 						<span className='w-full'>
 							<InputField
 								label='Current Password'

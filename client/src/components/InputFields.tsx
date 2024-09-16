@@ -22,7 +22,7 @@ export const InputField = ({
 	Icon,
 }: InputFieldProps) => {
 	return (
-		<label htmlFor={name}>
+		<label htmlFor={name} className='text-h4'>
 			{label}
 
 			<div className='label'>
@@ -32,7 +32,7 @@ export const InputField = ({
 					type={type}
 					placeholder={placeholder}
 					name={name}
-					className='flex-grow outline-none bg-accent font-extralight'
+					className='outline-none bg-accent font-extralight capitalize flex-grow'
 					onChange={onChange}
 					value={value}
 				/>
@@ -60,7 +60,7 @@ export const SelectField = ({
 	value,
 }: SelectFieldProps) => {
 	return (
-		<label htmlFor={name}>
+		<label htmlFor={name} className='text-h4'>
 			{label}
 			<div className='label'>
 				<select
@@ -68,10 +68,8 @@ export const SelectField = ({
 					name={name}
 					onChange={onChange}
 					value={value}
-					className='flex-grow outline-none bg-accent font-extralight capitalize'>
-					<option value='' disabled>
-						Select
-					</option>
+					className='outline-none bg-accent font-extralight capitalize flex-grow'>
+					<option disabled>Select</option>
 					{options.map((option) => (
 						<option
 							key={option}
@@ -105,7 +103,7 @@ export const DateInputField = ({
 	const today = new Date().toISOString().split("T")[0];
 
 	return (
-		<label htmlFor={name}>
+		<label htmlFor={name} className='text-h4'>
 			{label}
 			<div className='label'>
 				<input
@@ -116,7 +114,7 @@ export const DateInputField = ({
 					onChange={onChange}
 					value={value}
 					max={today}
-					className='flex-grow outline-none bg-accent font-extralight'
+					className='outline-none bg-accent font-extralight capitalize flex-grow'
 				/>
 			</div>
 		</label>

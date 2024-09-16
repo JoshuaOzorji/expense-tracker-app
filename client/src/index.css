@@ -7,7 +7,7 @@
 }
 
 .label {
-	@apply flex items-center gap-2 p-2 md:p-3 rounded-lg bg-accent;
+	@apply flex items-center gap-1.5 p-1.5 md:p-3 rounded-lg bg-accent text-sm md:text-base;
 }
 
 .custom-input {
@@ -19,7 +19,7 @@
 }
 
 .buttonSm {
-	@apply px-2 py-1 md:px-3 rounded-md text-accent bg-pry hover:bg-accent hover:text-pry border animate;
+	@apply px-2 py-1.5 md:px-3 rounded-md text-accent bg-pry hover:bg-accent hover:text-pry border animate text-sm md:text-base;
 }
 
 .form-focus {
@@ -34,7 +34,15 @@
 	@apply text-xl md:text-2xl;
 }
 
+.text-h3 {
+	@apply text-lg md:text-2xl;
+}
+
 .text-h4 {
+	@apply text-sm md:text-base;
+}
+
+.text-h5 {
 	@apply text-xs md:text-sm;
 }
 

@@ -39,25 +39,25 @@ const Card = ({ transactionId }: CardProps) => {
 	return (
 		<section className='flex justify-between p-2 border rounded-md md:p-3 border-sec hover:shadow-md animate'>
 			<div className='flex flex-col justify-between'>
-				<span className='font-bold capitalize md:text-base'>
+				<span className='text-base font-bold capitalize md:text-base'>
 					{transaction?.description}
 				</span>
-				<span className='text-sm capitalize'>
+				<span className='text-xs capitalize md:text-sm'>
 					{transaction?.category}
 				</span>
 			</div>
 
-			<section className='flex items-center gap-4 text-right md:gap-5'>
-				<div className='flex flex-col justify-between'>
-					<span className='font-bold md:text-xl'>
+			<section className='flex items-center justify-between gap-2 md:gap-5'>
+				<div className='flex flex-col justify-between h-full text-right'>
+					<span className='text-base font-bold md:text-xl'>
 						₦{transaction?.amount}
 					</span>
-					<span className='text-sm'>
+					<span className='text-xs md:text-sm'>
 						{transaction?.formattedDate}
 					</span>
 				</div>
 
-				<div className='flex flex-col gap-1'>
+				<div className='flex flex-col justify-between'>
 					<button
 						className='p-1 rounded-full hover:bg-accent'
 						onClick={() =>

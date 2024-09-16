@@ -92,14 +92,14 @@ const Dashboard = () => {
 
 	return (
 		<main className='p-2 border rounded-md shadow-md '>
-			<div className='flex items-center justify-between'>
-				<p className='p-2'>
+			<div className='flex items-center justify-between p-1'>
+				<p>
 					<GreetingCard />
 				</p>
 				<TransactionForm />
 			</div>
 
-			<div className='flex flex-col items-center max-h-screen gap-4 md:flex-row shadow-accent'>
+			<div className='flex flex-col items-center gap-4 md:flex-row shadow-accent'>
 				<section className='md:w-[50%]'>
 					{/* CHART */}
 					<div className='flex justify-center items-center w-full h-auto mx-auto md:max-h-[75vh]'>
@@ -139,7 +139,7 @@ const Dashboard = () => {
 								][index % 4]
 							}] py-1 px-2`}>
 							<span className='flex flex-col'>
-								<h2 className='text-2xl font-bold capitalize'>
+								<h2 className='font-bold capitalize text-h3'>
 									{
 										stat.category
 									}
@@ -148,7 +148,7 @@ const Dashboard = () => {
 									{/* Add a description for each category as needed */}
 								</p>
 							</span>
-							<span className='text-4xl font-bold'>
+							<span className='font-bold text-h3'>
 								₦
 								{
 									stat.totalAmount
@@ -157,13 +157,9 @@ const Dashboard = () => {
 						</div>
 					))}
 
-					<div className='flex items-center justify-between px-2 my-1 font-bold text-black'>
-						<h2 className='text-2xl'>
-							Total spend
-						</h2>
-						<h1 className='text-4xl'>
-							₦{getTotalSpend()}
-						</h1>
+					<div className='flex items-center justify-between px-2 py-1 my-1 text-xl font-bold text-black rounded-md bg-accent md:text-2xl'>
+						<h2>Total spend</h2>
+						<h1>₦{getTotalSpend()}</h1>
 					</div>
 				</section>
 			</div>

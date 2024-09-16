@@ -15,7 +15,7 @@ const GreetingCard = () => {
 		}
 	};
 	return (
-		<main>
+		<main className='text-sm md:text-base'>
 			{getGreeting()}, {authUser?.firstName}
 		</main>
 	);

@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import {
 	Dialog,
 	DialogContent,
@@ -122,17 +121,17 @@ const TransactionForm = ({
 	return (
 		<>
 			{!isUpdate && (
-				<Button
-					variant='outline'
-					className='buttonSm'
+				<button
+					className='text-xs buttonSm md:text-base'
 					onClick={() => setDialogOpen(true)}>
 					Add +
-				</Button>
+				</button>
 			)}
+
 			<Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-				<DialogContent>
+				<DialogContent className=''>
 					<DialogHeader>
-						<DialogTitle>
+						<DialogTitle className='text-base md:text-lg'>
 							{isUpdate
 								? "Update Transaction"
 								: "Add Transaction"}
@@ -140,8 +139,8 @@ const TransactionForm = ({
 					</DialogHeader>
 					<form
 						onSubmit={handleSubmit}
-						className='grid gap-2 py-4'>
-						<div className='flex items-center justify-between gap-2'>
+						className='grid gap-2 py-2 md:py-4'>
+						<div className='flex flex-col items-center justify-between gap-2 md:flex-row'>
 							<span className='w-full'>
 								<SelectField
 									label='Payment Type'
@@ -182,7 +181,7 @@ const TransactionForm = ({
 							</span>
 						</div>
 
-						<div className='flex justify-between gap-2'>
+						<div className='flex flex-col items-center justify-between gap-2 md:flex-row'>
 							<span className='w-full'>
 								<InputField
 									label='Amount (₦)'
@@ -216,35 +215,40 @@ const TransactionForm = ({
 							</span>
 						</div>
 
-						<DateInputField
-							label='Date'
-							id='date'
-							name='date'
-							onChange={
-								handleDateChange
-							}
-							value={formData.date
-								.toISOString()
-								.substring(
-									0,
-									10,
-								)}
-						/>
+						<div className='flex flex-col items-center justify-between gap-2 md:flex-row'>
+							<span className='w-full'>
+								<DateInputField
+									label='Date'
+									id='date'
+									name='date'
+									onChange={
+										handleDateChange
+									}
+									value={formData.date
+										.toISOString()
+										.substring(
+											0,
+											10,
+										)}
+								/>
+							</span>
 
-						<InputField
-							id='description'
-							label='Description'
-							type='text'
-							name='description'
-							placeholder='description'
-							onChange={
-								handleInputChange
-							}
-							value={
-								formData.description
-							}
-						/>
-
+							<span className='w-full'>
+								<InputField
+									id='description'
+									label='Description'
+									type='text'
+									name='description'
+									placeholder='description'
+									onChange={
+										handleInputChange
+									}
+									value={
+										formData.description
+									}
+								/>
+							</span>
+						</div>
 						{(createError ||
 							updateError) && (
 							<p className='text-sm font-light text-center text-red-600 rounded-md'>
@@ -258,7 +262,7 @@ const TransactionForm = ({
 						<DialogFooter>
 							<button
 								type='submit'
-								className='buttonSm'>
+								className='buttonSm mt-1 md:mt-2'>
 								<p>
 									{isUpdate
 										? updatePending

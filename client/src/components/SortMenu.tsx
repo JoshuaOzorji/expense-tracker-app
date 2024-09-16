@@ -14,7 +14,7 @@ const SortMenu = ({ onSortFieldChange }: SortMenuProps) => {
 	};
 
 	return (
-		<div className='flex items-center border px-0.5 rounded-md'>
+		<div className='flex items-center border px-0.5 rounded-md text-xs md:text-base'>
 			<select
 				value={selectedValue}
 				onChange={handleValueChange}
