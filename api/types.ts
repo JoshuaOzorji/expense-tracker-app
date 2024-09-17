@@ -3,7 +3,7 @@ export interface TransactionType {
 	createdAt: Date;
 	updatedAt: Date;
 	userId: string;
-	date: string;
+	date: any;
 	description: string;
 	paymentType: "cash" | "card" | "transfer";
 	category: "investments" | "savings" | "essentials" | "discretionary";
