@@ -80,7 +80,7 @@ const Card = ({ transactionId }: CardProps) => {
 									transaction.location ||
 									"",
 								date: new Date(
-									transaction.date,
+									transaction.date as string,
 								),
 							}}
 							isUpdate={true}
