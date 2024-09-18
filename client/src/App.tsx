@@ -11,36 +11,61 @@ const App = () => {
 	const { data: authUser } = useQuery({ queryKey: ["authUser"] });
 
 	return (
-		<main>
+		<main className='w-full'>
 			<Routes>
 				<Route element={<Layout2 />}>
 					<Route
 						path='/'
-						element={!authUser ? <LoginPage /> : <Navigate to='/dashboard' />}
+						element={
+							!authUser ? (
+								<LoginPage />
+							) : (
+								<Navigate to='/dashboard' />
+							)
+						}
 					/>
 
 					<Route
 						path='/signup'
-						element={!authUser ? <SignupPage /> : <Navigate to='/dashboard' />}
+						element={
+							!authUser ? (
+								<SignupPage />
+							) : (
+								<Navigate to='/dashboard' />
+							)
+						}
 					/>
 				</Route>
 
 				<Route element={<Layout />}>
 					<Route
 						path='/dashboard'
-						element={authUser ? <HomePage /> : <Navigate to='/' />}
+						element={
+							authUser ? (
+								<HomePage />
+							) : (
+								<Navigate to='/' />
+							)
+						}
 					/>
 				</Route>
 				<Route
 					path='*'
-					element={<Navigate to={authUser ? "/dashboard" : "/"} />}
+					element={
+						<Navigate
+							to={
+								authUser
+									? "/dashboard"
+									: "/"
+							}
+						/>
+					}
 				/>
 			</Routes>
 
 			<Toaster
 				toastOptions={{
-					className:
-						"border px-[6px] py-[4px] text-sm rounded-md bg-[#F8F9F9] text-black",
+					className: "border px-[6px] py-[4px] text-sm rounded-md bg-[#F8F9F9] text-black",
 
 					success: {
 						iconTheme: {

@@ -129,7 +129,7 @@ const TransactionForm = ({
 			)}
 
 			<Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-				<DialogContent className=''>
+				<DialogContent className='w-[86%] md:w-full'>
 					<DialogHeader>
 						<DialogTitle className='text-base md:text-lg'>
 							{isUpdate
@@ -262,7 +262,7 @@ const TransactionForm = ({
 						<DialogFooter>
 							<button
 								type='submit'
-								className='buttonSm mt-1 md:mt-2'>
+								className='mt-1 buttonSm md:mt-2'>
 								<p>
 									{isUpdate
 										? updatePending

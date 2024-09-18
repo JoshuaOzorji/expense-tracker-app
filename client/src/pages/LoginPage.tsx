@@ -4,6 +4,7 @@ import { CiUser } from "react-icons/ci";
 import { CiLock } from "react-icons/ci";
 import { Link, useNavigate } from "react-router-dom";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import brandLogo from "/mrjosh-logo.png";
 
 const LoginPage = () => {
 	const { authUser } = useAuthUser();
@@ -56,7 +57,16 @@ const LoginPage = () => {
 
 			<section className='md:w-[60%] flex flex-col justify-center min-h-screen'>
 				<div className='block w-[80%] md:w-[50%] mx-auto space-y-4'>
-					<div>
+					<Link
+						to='/login'
+						className='flex flex-col items-center'>
+						<img
+							src={brandLogo}
+							alt='Brand Logo'
+							className='object-contain w-12 h-12 md:h-16 md:w-16'
+						/>
+					</Link>
+					<div className=''>
 						<h2 className='font-bold text-h2 font-bitter'>
 							Login
 						</h2>

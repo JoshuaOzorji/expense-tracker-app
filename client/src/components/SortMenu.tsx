@@ -18,8 +18,8 @@ const SortMenu = ({ onSortFieldChange }: SortMenuProps) => {
 			<select
 				value={selectedValue}
 				onChange={handleValueChange}
-				className='focus:outline-none'>
-				<option value='' disabled>
+				className='bg-white focus:outline-none'>
+				<option value='' disabled className='bg-white '>
 					Sort by
 				</option>
 				<option value='category'>Category</option>

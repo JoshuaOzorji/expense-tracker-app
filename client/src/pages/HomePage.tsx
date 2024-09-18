@@ -15,9 +15,15 @@ const HomePage = () => {
 	}, [authUser, navigate]);
 
 	return (
-		<main className='bucket'>
-			<Dashboard />
-			<Activity />
+		<main>
+			<div className='bucket'>
+				<div className='overflow-hidden'>
+					<Dashboard />
+				</div>
+				<div className='overflow-hidden'>
+					<Activity />
+				</div>
+			</div>
 		</main>
 	);
 };

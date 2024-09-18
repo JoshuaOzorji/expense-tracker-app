@@ -2,12 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+	box-sizing: border-box;
+}
+
 .animate {
 	@apply transition-all delay-100;
 }
 
 .label {
-	@apply flex items-center gap-1.5 p-1.5 md:p-3 rounded-lg bg-accent text-sm md:text-base;
+	@apply flex items-center gap-1.5 p-1.5 md:p-2 rounded-lg bg-accent text-sm md:text-base;
 }
 
 .custom-input {
@@ -47,7 +51,7 @@
 }
 
 .bucket {
-	@apply w-[90%] p-1 md:p-2 mx-auto transition-all delay-100;
+	@apply w-[94%] md:w-[90%] p-1 md:p-2 mx-auto transition-all delay-100 overflow-hidden max-w-full;
 }
 
 .animate {

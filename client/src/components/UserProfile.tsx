@@ -70,7 +70,7 @@ const UserProfile = () => {
 					Edit Profile
 				</button>
 			</DialogTrigger>
-			<DialogContent>
+			<DialogContent className='w-[86%] md:w-full'>
 				<DialogHeader>
 					<DialogTitle>Edit profile</DialogTitle>
 				</DialogHeader>
@@ -110,43 +110,41 @@ const UserProfile = () => {
 						</span>
 					</div>
 
-					<div className='flex flex-col items-center justify-between gap-2 md:flex-row'>
-						<span className='w-full'>
-							<InputField
-								label='Username'
-								id='username'
-								name='username'
-								type='text'
-								placeholder='Username'
-								onChange={
-									handleInputChange
-								}
-								value={
-									formData.username
-								}
-							/>
-						</span>
+					<span className='w-full'>
+						<InputField
+							label='Username'
+							id='username'
+							name='username'
+							type='text'
+							placeholder='Username'
+							onChange={
+								handleInputChange
+							}
+							value={
+								formData.username
+							}
+						/>
+					</span>
 
-						<span className='w-full'>
-							<label
-								htmlFor='profileImg'
-								className='text-h4'>
-								Profile Image
-								<div className='label'>
-									<input
-										type='file'
-										id='profileImg'
-										name='profileImg'
-										accept='image/*'
-										onChange={
-											handleFileChange
-										}
-										className='outline-none bg-accent font-extralight capitalize flex-grow'
-									/>
-								</div>
-							</label>
-						</span>
-					</div>
+					<span className='w-full'>
+						<label
+							htmlFor='profileImg'
+							className='text-h4'>
+							Profile Image
+							<div className='label'>
+								<input
+									type='file'
+									id='profileImg'
+									name='profileImg'
+									accept='image/*'
+									onChange={
+										handleFileChange
+									}
+									className='flex-grow capitalize outline-none bg-accent font-extralight'
+								/>
+							</div>
+						</label>
+					</span>
 
 					<div className='flex flex-col items-center justify-between gap-2 md:flex-row'>
 						<span className='w-full'>

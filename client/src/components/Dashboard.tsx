@@ -91,7 +91,7 @@ const Dashboard = () => {
 		0;
 
 	return (
-		<main className='p-2 border rounded-md shadow-md '>
+		<main className='max-w-full p-2 border rounded-md shadow-md'>
 			<div className='flex items-center justify-between p-1'>
 				<p>
 					<GreetingCard />
