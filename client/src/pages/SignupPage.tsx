@@ -6,6 +6,7 @@ import { CiMail } from "react-icons/ci";
 import { PiUserPlusLight } from "react-icons/pi";
 import { useAuthUser, useSignUp } from "@/hooks/AuthApi";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import LoadingSpinner from "@/components/LoadingSpinner";
 
 const SignupPage = () => {
 	const { signUp, isError, isPending, error } = useSignUp();
@@ -44,9 +45,12 @@ const SignupPage = () => {
 			<section className='md:w-[60%] flex flex-col justify-center min-h-screen'>
 				<div className='block w-[80%] md:w-[50%] mx-auto space-y-4 my-8'>
 					<div>
-						<h2 className='font-bold text-h2 font-bitter'>Sign Up</h2>
+						<h2 className='font-bold text-h2 font-bitter'>
+							Sign Up
+						</h2>
 						<p className='font-light text-sec'>
-							Please input your details to sign up
+							Please input your
+							details to sign up
 						</p>
 					</div>
 
@@ -56,7 +60,9 @@ const SignupPage = () => {
 						autoComplete='off'>
 						{/* FIRST NAME */}
 						<div>
-							<label htmlFor='firstName'>First name</label>
+							<label htmlFor='firstName'>
+								First name
+							</label>
 							<div className='label'>
 								<CiUser className='icon text-pry' />
 								<input
@@ -64,15 +70,21 @@ const SignupPage = () => {
 									name='firstName'
 									placeholder='first name'
 									className='custom-input'
-									onChange={handleInputChange}
-									value={formData.firstName}
+									onChange={
+										handleInputChange
+									}
+									value={
+										formData.firstName
+									}
 								/>
 							</div>
 						</div>
 
 						{/* LAST NAME */}
 						<div>
-							<label htmlFor='Last Name'>Last Name</label>
+							<label htmlFor='Last Name'>
+								Last Name
+							</label>
 							<div className='label'>
 								<CiUser className='icon text-pry' />
 								<input
@@ -80,15 +92,21 @@ const SignupPage = () => {
 									name='lastName'
 									placeholder='last name'
 									className='custom-input'
-									onChange={handleInputChange}
-									value={formData.lastName}
+									onChange={
+										handleInputChange
+									}
+									value={
+										formData.lastName
+									}
 								/>
 							</div>
 						</div>
 
 						{/* USERNAME */}
 						<div>
-							<label htmlFor='username'>Username</label>
+							<label htmlFor='username'>
+								Username
+							</label>
 							<div className='label'>
 								<PiUserPlusLight className='icon text-pry' />
 								<input
@@ -96,8 +114,12 @@ const SignupPage = () => {
 									name='username'
 									placeholder='username'
 									className='custom-input'
-									onChange={handleInputChange}
-									value={formData.username}
+									onChange={
+										handleInputChange
+									}
+									value={
+										formData.username
+									}
 								/>
 							</div>
 						</div>
@@ -111,8 +133,13 @@ const SignupPage = () => {
 										type='radio'
 										name='gender'
 										value='male'
-										onChange={handleInputChange}
-										checked={formData.gender === "male"}
+										onChange={
+											handleInputChange
+										}
+										checked={
+											formData.gender ===
+											"male"
+										}
 										required
 										className='mr-2 radio radio-error'
 									/>
@@ -123,8 +150,13 @@ const SignupPage = () => {
 										type='radio'
 										name='gender'
 										value='female'
-										onChange={handleInputChange}
-										checked={formData.gender === "female"}
+										onChange={
+											handleInputChange
+										}
+										checked={
+											formData.gender ===
+											"female"
+										}
 										required
 										className='mr-2 radio radio-error'
 									/>
@@ -135,7 +167,9 @@ const SignupPage = () => {
 
 						{/* EMAIL */}
 						<div>
-							<label htmlFor='email'>Email</label>
+							<label htmlFor='email'>
+								Email
+							</label>
 							<div className='label'>
 								<CiMail className='icon text-pry' />
 								<input
@@ -143,15 +177,21 @@ const SignupPage = () => {
 									name='email'
 									placeholder='email address'
 									className='custom-input'
-									onChange={handleInputChange}
-									value={formData.email}
+									onChange={
+										handleInputChange
+									}
+									value={
+										formData.email
+									}
 								/>
 							</div>
 						</div>
 
 						{/* PASSWORD */}
 						<div>
-							<label htmlFor='password'>Password</label>
+							<label htmlFor='password'>
+								Password
+							</label>
 							<div className='label'>
 								<CiLock className='icon text-pry' />
 								<input
@@ -159,15 +199,21 @@ const SignupPage = () => {
 									name='password'
 									placeholder='password'
 									className='custom-input'
-									onChange={handleInputChange}
-									value={formData.password}
+									onChange={
+										handleInputChange
+									}
+									value={
+										formData.password
+									}
 								/>
 							</div>
 						</div>
 
 						{/* CONFIRM PASSWORD */}
 						<div>
-							<label htmlFor='confirmPassword'>Confirm Password</label>
+							<label htmlFor='confirmPassword'>
+								Confirm Password
+							</label>
 							<div className='label'>
 								<CiLock className='icon text-pry' />
 								<input
@@ -175,15 +221,28 @@ const SignupPage = () => {
 									name='confirmPassword'
 									placeholder='confirm password'
 									className='custom-input'
-									onChange={handleInputChange}
-									value={formData.confirmPassword}
+									onChange={
+										handleInputChange
+									}
+									value={
+										formData.confirmPassword
+									}
 								/>
 							</div>
 						</div>
 
 						{/* SUBMIT BUTTON */}
 						<button className='button'>
-							<p>{isPending ? "Loading..." : "Sign Up"}</p>
+							<p>
+								{isPending ? (
+									<LoadingSpinner size='xs' />
+								) : (
+									<p>
+										Sign
+										Up
+									</p>
+								)}
+							</p>
 						</button>
 						{isError && error && (
 							<p className='text-sm font-light text-center text-red-600 rounded-md'>
@@ -193,8 +252,12 @@ const SignupPage = () => {
 					</form>
 
 					<div className='flex justify-center gap-2 pt-6 text-h4'>
-						<p className='text-sec'>Already have an account</p>{" "}
-						<Link className='text-pry hover:underline' to={"/"}>
+						<p className='text-sec'>
+							Already have an account
+						</p>{" "}
+						<Link
+							className='text-pry hover:underline'
+							to={"/"}>
 							Log in
 						</Link>
 					</div>
@@ -203,7 +266,11 @@ const SignupPage = () => {
 
 			<section className='hidden md:block md:w-[40%] bg-accent mx-auto min-h-screen justify-center md:fixed right-0 top-0'>
 				<div className=''>
-					<img src={signupImage} alt='login image' className='object-contain' />
+					<img
+						src={signupImage}
+						alt='login image'
+						className='object-contain'
+					/>
 				</div>
 			</section>
 		</main>

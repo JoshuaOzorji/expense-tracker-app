@@ -5,6 +5,7 @@ import { CiLock } from "react-icons/ci";
 import { Link, useNavigate } from "react-router-dom";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import brandLogo from "/mrjosh-logo.png";
+import LoadingSpinner from "@/components/LoadingSpinner";
 
 const LoginPage = () => {
 	const { authUser } = useAuthUser();
@@ -129,11 +130,16 @@ const LoginPage = () => {
 						</div>
 
 						<button className='button'>
-							<p>
+							{/* <p>
 								{isPending
 									? "Loading..."
 									: "Login"}
-							</p>
+							</p> */}
+							{isPending ? (
+								<LoadingSpinner size='xs' />
+							) : (
+								<p>Login</p>
+							)}
 						</button>
 
 						{isError && error && (

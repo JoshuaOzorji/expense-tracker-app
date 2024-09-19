@@ -29,11 +29,11 @@ const DeleteButton = ({ transactionId }: DeleteButtonProps) => {
 	return (
 		<AlertDialog>
 			<AlertDialogTrigger>
-				<button className='text-red-700 hover:underline animate hover:bg-red-300 rounded-full p-1'>
+				<button className='p-1 text-red-700 rounded-full hover:underline animate hover:bg-red-300'>
 					<PiTrashLight />
 				</button>
 			</AlertDialogTrigger>
-			<AlertDialogContent>
+			<AlertDialogContent className='w-[84%] md:w-full'>
 				<AlertDialogHeader>
 					<AlertDialogTitle>
 						Delete Transaction?
