@@ -71,6 +71,12 @@ const getTransaction = async (req, res) => {
                 .json({ message: "Transaction not found" });
         }
         const formattedDate = (0, formatDate_1.formatDate)(new Date(transaction.date));
+        const formatAmount = (amount) => {
+            return amount.toLocaleString("en-US", {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0,
+            });
+        };
         const transactionData = {
             _id: transaction._id.toString(),
             createdAt: transaction.createdAt,
@@ -81,6 +87,7 @@ const getTransaction = async (req, res) => {
             date: transaction.date,
             category: transaction.category,
             amount: transaction.amount,
+            formattedAmount: formatAmount(transaction.amount),
             location: transaction.location ?? undefined,
             formattedDate: (0, formatDate_1.formatDate)(transaction.date),
         };

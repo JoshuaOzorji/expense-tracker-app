@@ -154,7 +154,7 @@ const Dashboard = () => {
 								{stat.totalAmount.toLocaleString(
 									undefined,
 									{
-										minimumFractionDigits: 2,
+										minimumFractionDigits: 0,
 									},
 								)}
 							</span>
@@ -169,7 +169,7 @@ const Dashboard = () => {
 							{getTotalSpend().toLocaleString(
 								undefined,
 								{
-									minimumFractionDigits: 2,
+									minimumFractionDigits: 0,
 								},
 							)}
 						</h1>
