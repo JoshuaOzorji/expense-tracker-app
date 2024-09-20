@@ -32,7 +32,7 @@ export const InputField = ({
 					type={type}
 					placeholder={placeholder}
 					name={name}
-					className='outline-none bg-accent font-extralight capitalize flex-grow'
+					className='flex-grow capitalize outline-none bg-accent font-extralight'
 					onChange={onChange}
 					value={value}
 				/>
@@ -68,8 +68,10 @@ export const SelectField = ({
 					name={name}
 					onChange={onChange}
 					value={value}
-					className='outline-none bg-accent font-extralight capitalize flex-grow'>
-					<option disabled>Select</option>
+					className='flex-grow capitalize outline-none bg-accent font-extralight'>
+					<option value='' disabled>
+						Select
+					</option>
 					{options.map((option) => (
 						<option
 							key={option}
@@ -114,7 +116,7 @@ export const DateInputField = ({
 					onChange={onChange}
 					value={value}
 					max={today}
-					className='outline-none bg-accent font-extralight capitalize flex-grow'
+					className='flex-grow capitalize outline-none bg-accent font-extralight'
 				/>
 			</div>
 		</label>

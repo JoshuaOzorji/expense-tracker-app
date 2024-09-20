@@ -50,7 +50,9 @@ const Card = ({ transactionId }: CardProps) => {
 			<section className='flex items-center justify-between gap-2 md:gap-5'>
 				<div className='flex flex-col justify-between h-full text-right'>
 					<span className='text-base font-bold md:text-xl'>
-						₦{transaction?.amount}
+						₦
+						{transaction?.formattedAmount ||
+							transaction?.amount.toLocaleString()}
 					</span>
 					<span className='text-xs md:text-sm'>
 						{transaction?.formattedDate}

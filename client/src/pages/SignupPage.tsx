@@ -2,7 +2,7 @@ import { CiLock, CiUser } from "react-icons/ci";
 import { Link, useNavigate } from "react-router-dom";
 import signupImage from "/expense.png";
 import { CiMail } from "react-icons/ci";
-
+import brandLogo from "/mrjosh-logo.png";
 import { PiUserPlusLight } from "react-icons/pi";
 import { useAuthUser, useSignUp } from "@/hooks/AuthApi";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
@@ -44,6 +44,15 @@ const SignupPage = () => {
 		<main className='flex flex-col min-h-screen md:flex-row md:relative'>
 			<section className='md:w-[60%] flex flex-col justify-center min-h-screen'>
 				<div className='block w-[80%] md:w-[50%] mx-auto space-y-4 my-8'>
+					<Link
+						to='/login'
+						className='flex flex-col items-center'>
+						<img
+							src={brandLogo}
+							alt='Brand Logo'
+							className='object-contain w-12 h-12 md:h-16 md:w-16'
+						/>
+					</Link>
 					<div>
 						<h2 className='font-bold text-h2 font-bitter'>
 							Sign Up

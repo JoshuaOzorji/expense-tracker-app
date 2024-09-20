@@ -145,21 +145,34 @@ const Dashboard = () => {
 									}
 								</h2>
 								<p className='font-extralight text-[12px]'>
+									{/* TODO: */}
 									{/* Add a description for each category as needed */}
 								</p>
 							</span>
 							<span className='font-bold text-h3'>
 								₦
-								{
-									stat.totalAmount
-								}
+								{stat.totalAmount.toLocaleString(
+									undefined,
+									{
+										minimumFractionDigits: 2,
+									},
+								)}
 							</span>
 						</div>
 					))}
 
 					<div className='flex items-center justify-between px-2 py-1 my-1 text-xl font-bold text-black rounded-md bg-accent md:text-2xl'>
 						<h2>Total spend</h2>
-						<h1>₦{getTotalSpend()}</h1>
+						{/* <h1>₦{getTotalSpend()}</h1> */}
+						<h1>
+							₦
+							{getTotalSpend().toLocaleString(
+								undefined,
+								{
+									minimumFractionDigits: 2,
+								},
+							)}
+						</h1>
 					</div>
 				</section>
 			</div>

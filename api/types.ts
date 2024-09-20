@@ -10,4 +10,5 @@ export interface TransactionType {
 	amount: number;
 	location?: string;
 	formattedDate?: string;
+	formattedAmount?: string;
 }

@@ -85,6 +85,13 @@ export const getTransaction = async (req: Request, res: Response) => {
 
 		const formattedDate = formatDate(new Date(transaction.date));
 
+		const formatAmount = (amount: number) => {
+			return amount.toLocaleString("en-US", {
+				minimumFractionDigits: 2,
+				maximumFractionDigits: 2,
+			});
+		};
+
 		const transactionData: TransactionType = {
 			_id: transaction._id.toString(),
 			createdAt: transaction.createdAt,
@@ -95,9 +102,11 @@ export const getTransaction = async (req: Request, res: Response) => {
 			date: transaction.date,
 			category: transaction.category,
 			amount: transaction.amount,
+			formattedAmount: formatAmount(transaction.amount),
 			location: transaction.location ?? undefined,
 			formattedDate: formatDate(transaction.date),
 		};
+
 		res.status(200).json(transactionData);
 	} catch (error: any) {
 		handleServerError(res, error, "getTransaction");
